@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fermentación">
+<meta name="theme-color" content="#1b5e37">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231b5e37'/><text y='.9em' font-size='80' x='10'>🍃</text></svg>">
+<title>Dashboard Fermentación de Tabaco</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* Fuentes del sistema — sin carga de red */
+body,input,select,button{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif!important}
+.hdr-ttl,.kpi-val,.cttl,.modal-ttl,.mstat .v{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif!important;font-weight:700!important}
+</style>
+<style>:root{--v:#1b5e37;--v2:#2d8a56;--v3:#d4edda;--r:#c0392b;--r2:#e74c3c;--r3:#fdecea;--a:#d68910;--a2:#f39c12;--a3:#fef9e7;--az:#1a4f7a;--az2:#2980b9;--az3:#eaf4fb;--n:#b7450a;--n2:#e67e22;--n3:#fdf2e9;--mo:#6c3483;--mo2:#9b59b6;--mo3:#f5eef8;--g:#5d6d7e;--g2:#aab7b8;--g3:#f4f6f7;--borde:#e8ecf0;--sh:0 2px 12px rgba(0,0,0,.08);--rad:10px;--txt:#1c2833;--txt2:#5d6d7e}*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',sans-serif;background:#eef1f5;color:var(--txt);font-size:14px}.hdr{background:linear-gradient(135deg,#0d2e1a 0%,#1b5e37 55%,#27ae60 100%);color:#fff}.hdr-top{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.8rem;border-bottom:1px solid rgba(255,255,255,.12)}.hdr-brand{display:flex;align-items:center;gap:.9rem}.hdr-logo{width:44px;height:44px;background:rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem}.hdr-ttl{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:700;letter-spacing:-.01em}.hdr-sub{font-size:.75rem;opacity:.7;margin-top:2px}.hdr-right{display:flex;gap:.7rem;align-items:center}.hdr-date{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:.4rem .9rem;font-size:.78rem;font-weight:500}.bh{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:8px;padding:.42rem .95rem;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s}.bh:hover{background:rgba(255,255,255,.25)}.tabs{background:#fff;border-bottom:2px solid var(--borde);padding:0 1.8rem;display:flex;overflow-x:auto}.tab{padding:.85rem 1.2rem;font-size:.83rem;font-weight:500;color:var(--g);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .18s;margin-bottom:-2px}.tab.active{color:var(--v);border-bottom-color:var(--v);font-weight:700}.tab:hover:not(.active){color:var(--v2)}.page{display:none;padding:1.4rem 1.8rem;max-width:1440px;margin:0 auto}.page.active{display:block}.kr{display:grid;gap:.9rem;margin-bottom:1.2rem}.k5{grid-template-columns:repeat(5,1fr)}.k4{grid-template-columns:repeat(4,1fr)}.k3{grid-template-columns:repeat(3,1fr)}.kpi{background:#fff;border-radius:var(--rad);padding:1rem 1.2rem;box-shadow:var(--sh);border-left:4px solid var(--borde);position:relative;overflow:hidden}.kpi::before{content:'';position:absolute;right:-12px;top:-12px;width:60px;height:60px;border-radius:50%;opacity:.06}.kpi.kaz{border-left-color:var(--az2)}.kpi.kaz::before{background:var(--az2)}.kpi.kr2{border-left-color:var(--r2)}.kpi.kr2::before{background:var(--r2)}.kpi.kv{border-left-color:var(--v2)}.kpi.kv::before{background:var(--v2)}.kpi.ka{border-left-color:var(--a2)}.kpi.ka::before{background:var(--a2)}.kpi.kmo{border-left-color:var(--mo2)}.kpi.kmo::before{background:var(--mo2)}.kpi-lbl{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--txt2);margin-bottom:.4rem}.kpi-val{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;line-height:1}.kpi.kaz .kpi-val{color:var(--az)}.kpi.kr2 .kpi-val{color:var(--r2)}.kpi.kv .kpi-val{color:var(--v)}.kpi.ka .kpi-val{color:var(--a)}.kpi.kmo .kpi-val{color:var(--mo)}.kpi-sub{font-size:.72rem;color:var(--txt2);margin-top:.3rem}.kpi-pct{font-size:.78rem;font-weight:700;margin-top:.25rem}.card{background:#fff;border-radius:var(--rad);padding:1.2rem;box-shadow:var(--sh);margin-bottom:1rem}.chdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}.cttl{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;color:var(--txt)}.csub{font-size:.73rem;color:var(--txt2);margin-top:2px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}.twrap{overflow:auto;max-height:440px}.twrap::-webkit-scrollbar{width:4px;height:4px}.twrap::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}table{width:100%;border-collapse:collapse;font-size:.8rem}th{background:#f7f9fb;padding:.6rem .8rem;text-align:left;font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g);border-bottom:2px solid var(--borde);white-space:nowrap;position:sticky;top:0;z-index:1}td{padding:.65rem .8rem;border-bottom:1px solid var(--borde);vertical-align:middle;color:var(--txt)}tr:hover td{background:#f8fafb}tr:last-child td{border-bottom:none}.num{text-align:right;font-family:'Space Grotesk',sans-serif;font-weight:500}.badge{display:inline-flex;align-items:center;gap:3px;padding:.2rem .65rem;border-radius:20px;font-size:.7rem;font-weight:700;white-space:nowrap}.br{background:var(--r3);color:var(--r)}.bv{background:var(--v3);color:var(--v)}.ba{background:var(--a3);color:var(--a)}.baz{background:var(--az3);color:var(--az)}.bmo{background:var(--mo3);color:var(--mo)}.bg{background:var(--g3);color:var(--g)}.dias{display:inline-block;padding:.2rem .55rem;border-radius:6px;font-size:.72rem;font-weight:800}.dc{background:#fdecea;color:#c0392b}.da{background:#fdf2e9;color:#b7450a}.dm{background:#fef9e7;color:#d68910}.dok{background:#d4edda;color:#1b5e37}.d0{background:#f4f6f7;color:#5d6d7e}.prog{display:flex;align-items:center;gap:6px}.prog-bg{flex:1;height:6px;background:#e8ecf0;border-radius:4px;overflow:hidden;max-width:90px}.prog-fill{height:100%;border-radius:4px}.prog-txt{font-size:.72rem;font-weight:700;min-width:32px;text-align:right}.zbar{display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid var(--borde)}.zbar:last-child{border-bottom:none}.zbar-nm{min-width:90px;font-size:.8rem;font-weight:600}.zbar-tr{flex:1;height:9px;background:#e8ecf0;border-radius:5px;overflow:hidden}.zbar-fl{height:100%;border-radius:5px}.zbar-inf{min-width:180px;text-align:right;font-size:.75rem;color:var(--txt2)}.zbar-inf strong{color:var(--txt)}.sc{border-radius:8px;padding:.85rem 1rem;margin-bottom:.7rem;border-left:4px solid}.sc-ok{background:#d4edda;border-left-color:#1b5e37}.sc-pa{background:#fef9e7;border-left-color:#d68910}.sc-no{background:#fdecea;border-left-color:#c0392b}.sc-ttl{font-size:.83rem;font-weight:700;margin-bottom:.3rem}.sc-det{font-size:.75rem;color:var(--txt2)}.fg{display:flex;flex-direction:column;gap:.3rem}.flbl{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--txt2)}.fin,.fsel{padding:.55rem .8rem;border:1.5px solid var(--borde);border-radius:8px;font-size:.85rem;font-family:'Inter',sans-serif;color:var(--txt);background:#fff;transition:border-color .2s}.fin:focus,.fsel:focus{outline:none;border-color:var(--v2);box-shadow:0 0 0 3px rgba(45,138,86,.1)}.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem}.bp{padding:.65rem 1.4rem;background:var(--v);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}.bp:hover{background:var(--v2)}.bs{padding:.55rem 1rem;background:#fff;color:var(--g);border:1.5px solid var(--borde);border-radius:8px;font-size:.82rem;cursor:pointer}.hr{border:none;border-top:1.5px solid var(--borde);margin:1rem 0}.aok{background:#d1fae5;color:#065f46;padding:.75rem 1rem;border-radius:8px;font-size:.83rem;font-weight:600;margin-bottom:.9rem;display:none}.aok.show{display:block}.drop-zone{border:2px dashed var(--borde);border-radius:10px;padding:2rem;text-align:center;background:var(--g3);cursor:pointer}.drop-zone:hover{border-color:var(--v2);background:#f0fff4}.ch{position:relative;width:100%}.ch-sm{height:200px}.ch-md{height:260px}.ch-lg{height:300px}.filtros{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center}.filtros select,.filtros input{padding:.45rem .75rem;border:1.5px solid var(--borde);border-radius:8px;font-size:.8rem;font-family:'Inter',sans-serif;background:#fff;color:var(--txt)}.filtros select:focus,.filtros input:focus{outline:none;border-color:var(--v2)}.fcnt{font-size:.78rem;color:var(--g);margin-left:.5rem}.pag{display:flex;gap:.4rem;justify-content:center;margin-top:.9rem;flex-wrap:wrap}.pag-btn{padding:.3rem .7rem;border:1.5px solid var(--borde);border-radius:6px;font-size:.78rem;cursor:pointer;background:#fff}.pag-btn.active{background:var(--v);color:#fff;border-color:var(--v)}.pag-btn:hover:not(.active){background:var(--g3)}.jcard{background:#fff;border-radius:var(--rad);box-shadow:var(--sh);margin-bottom:1rem;overflow:hidden}.jchdr{padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between}.jcbody{padding:.5rem 1.2rem 1.2rem}.mstats{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:.75rem}.mstat{background:var(--g3);border-radius:8px;padding:.6rem .7rem;text-align:center}.mstat .v{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700}.mstat .l{font-size:.66rem;color:var(--txt2);text-transform:uppercase;font-weight:600}.btn-edit{padding:.42rem .85rem;background:#fff;color:var(--az);border:1.5px solid var(--az3);border-radius:7px;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .18s}.btn-edit:hover{background:var(--az3)}.btn-del{padding:.42rem .85rem;background:#fff;color:var(--r);border:1.5px solid var(--r3);border-radius:7px;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .18s}.btn-del:hover{background:var(--r3)}.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center}.modal-bg.open{display:flex}.modal-box{background:#fff;border-radius:14px;padding:1.6rem;width:min(95vw,620px);max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.25)}.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}.modal-ttl{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700}.modal-x{border:none;background:var(--g3);border-radius:6px;width:32px;height:32px;font-size:1.1rem;cursor:pointer;color:var(--g)}.del-box{background:#fff;border-radius:14px;padding:1.6rem;width:min(95vw,420px);box-shadow:0 8px 40px rgba(0,0,0,.25);text-align:center}@media print{*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}body{background:#fff!important;margin:0;padding:0;font-size:11px}.no-print{display:none!important}.page{display:block!important;padding:.3rem!important;max-width:100%!important}.hdr{background:linear-gradient(135deg,#0d2e1a 0%,#1b5e37 55%,#27ae60 100%)!important;color:#fff!important;padding:.5rem 1rem!important;margin-bottom:.5rem;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.hdr-ttl{font-size:1rem!important;color:#fff!important}.hdr-sub{color:rgba(255,255,255,.8)!important}.tabs{display:none!important}.kr{gap:.4rem!important;margin-bottom:.6rem!important}.k5{grid-template-columns:repeat(5,1fr)!important}.k4{grid-template-columns:repeat(4,1fr)!important}.k3{grid-template-columns:repeat(3,1fr)!important}.g2{grid-template-columns:1fr 1fr!important;gap:.5rem!important}.g3{grid-template-columns:1fr 1fr 1fr!important;gap:.5rem!important}.kpi{border-radius:6px!important;padding:.5rem .7rem!important;box-shadow:none!important;border-left-width:4px!important;border-left-style:solid!important;page-break-inside:avoid!important}.kpi.kaz{background:#eaf4fb!important;border-left-color:#2980b9!important}.kpi.kr2{background:#fdecea!important;border-left-color:#e74c3c!important}.kpi.kv{background:#d4edda!important;border-left-color:#27ae60!important}.kpi.ka{background:#fef9e7!important;border-left-color:#f39c12!important}.kpi.kmo{background:#f5eef8!important;border-left-color:#9b59b6!important}.kpi-val{font-size:1.5rem!important}.kpi-lbl{font-size:.62rem!important}.kpi-sub{font-size:.62rem!important}.card{box-shadow:none!important;border:1px solid #e0e0e0!important;border-radius:6px!important;padding:.6rem!important;margin-bottom:.5rem!important;page-break-inside:avoid!important}.badge{border-radius:10px!important;padding:.15rem .5rem!important;font-size:.65rem!important}.br{background:#fdecea!important;color:#c0392b!important}.bv{background:#d4edda!important;color:#1b5e37!important}.ba{background:#fef9e7!important;color:#d68910!important}.baz{background:#eaf4fb!important;color:#1a4f7a!important}.bmo{background:#f5eef8!important;color:#6c3483!important}.bg{background:#f4f6f7!important;color:#5d6d7e!important}.dias{border-radius:4px!important;padding:.15rem .45rem!important;font-size:.68rem!important}.dc{background:#fdecea!important;color:#c0392b!important}.da{background:#fdf2e9!important;color:#b7450a!important}.dm{background:#fef9e7!important;color:#d68910!important}.dok{background:#d4edda!important;color:#1b5e37!important}.d0{background:#f4f6f7!important;color:#5d6d7e!important}.prog-bg{background:#e8ecf0!important;border-radius:3px!important;height:5px!important}.prog-fill{height:5px!important;border-radius:3px!important}.zbar-tr{background:#e8ecf0!important;height:8px!important}.zbar-fl{height:8px!important}.sc-ok{background:#d4edda!important;border-left-color:#1b5e37!important}.sc-pa{background:#fef9e7!important;border-left-color:#d68910!important}.sc-no{background:#fdecea!important;border-left-color:#c0392b!important}table{font-size:.7rem!important;border-collapse:collapse!important}th{background:#f7f9fb!important;padding:.3rem .5rem!important;font-size:.62rem!important;color:#5d6d7e!important}td{padding:.3rem .5rem!important}.twrap{max-height:none!important;overflow:visible!important}#top6 > div{padding:.4rem!important;border-bottom:1px solid #eee!important}.zbar{padding:.3rem 0!important}.jcard{page-break-inside:avoid!important;margin-bottom:.4rem!important;border-radius:6px!important;border:1px solid #ddd!important}.mstat{background:#f4f6f7!important;border-radius:5px!important}.pag{display:none!important}canvas{max-width:100%!important;height:auto!important}.g2,.g3,.kr{page-break-inside:avoid!important}h1,h2,.cttl{page-break-after:avoid!important}.modal-bg{display:none!important}}@media(max-width:900px){.k5,.k4{grid-template-columns:repeat(2,1fr)}.g2,.g3{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr}}@media(max-width:600px){.k5,.k4,.k3{grid-template-columns:repeat(2,1fr)!important}.g2,.g3{grid-template-columns:1fr!important}.fgrid{grid-template-columns:1fr!important}.page{padding:.7rem!important}.hdr-top{flex-direction:column;gap:.5rem;padding:.8rem 1rem}.hdr-right{width:100%;justify-content:center;flex-wrap:wrap}.hdr-ttl{font-size:1rem}.tabs{padding:0 .5rem}.tab{padding:.7rem .7rem;font-size:.75rem}.kpi{padding:.7rem .8rem}.kpi-val{font-size:1.6rem}.kpi-lbl{font-size:.65rem}.card{padding:.8rem}.cttl{font-size:.88rem}table{font-size:.72rem}th{padding:.45rem .5rem;font-size:.62rem}td{padding:.45rem .5rem}.twrap{max-height:300px}.zbar-nm{min-width:70px;font-size:.72rem}.zbar-inf{min-width:120px;font-size:.68rem}.hdr-date{display:none}#top6 > div > div:last-child .dias{font-size:.72rem}.ch-md{height:200px}.ch-lg{height:220px}.modal-box{width:95vw;padding:1rem;margin:.5rem}.del-box{width:90vw;padding:1rem}.mstats{grid-template-columns:repeat(2,1fr)!important}.jcbody .g2{grid-template-columns:1fr!important}}@media(max-width:380px){.k5,.k4,.k3{grid-template-columns:1fr 1fr!important}.kpi-val{font-size:1.4rem}.tab{padding:.6rem .55rem;font-size:.7rem}}</style>
+</head>
+<body>
+
+<!-- ═══════════════ PANTALLA DE LOGIN ═══════════════ -->
+<div id="loginScreen" style="position:fixed;inset:0;background:linear-gradient(135deg,#0d2e1a 0%,#1b5e37 55%,#27ae60 100%);display:flex;align-items:center;justify-content:center;z-index:99999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <div style="background:#fff;border-radius:20px;padding:2rem 1.8rem;width:min(90vw,360px);box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center">
+    <!-- Logo -->
+    <div style="width:70px;height:70px;background:linear-gradient(135deg,#1b5e37,#27ae60);border-radius:18px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 8px 20px rgba(27,94,55,.3)">🍃</div>
+    <div style="font-size:1.15rem;font-weight:700;color:#1c2833;margin-bottom:.3rem">Dashboard Fermentación</div>
+    <div style="font-size:.78rem;color:#5d6d7e;margin-bottom:1.5rem">Empresa Procesadora de Tabaco</div>
+
+    <!-- Mensaje de error -->
+    <div id="loginError" style="display:none;background:#fdecea;color:#c0392b;border-radius:8px;padding:.6rem;font-size:.8rem;font-weight:600;margin-bottom:.9rem">⚠️ PIN incorrecto. Intenta nuevamente.</div>
+
+    <!-- Indicador de rol -->
+    <div id="loginRol" style="display:none;margin-bottom:.9rem;padding:.5rem;border-radius:8px;font-size:.78rem;font-weight:600"></div>
+
+    <!-- Display del PIN -->
+    <div style="background:#f4f6f7;border-radius:12px;padding:.9rem 1rem;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:.75rem;color:#5d6d7e;font-weight:600;text-transform:uppercase;letter-spacing:.05em">PIN</span>
+      <div id="pinDisplay" style="font-family:monospace;font-size:1.6rem;font-weight:700;color:#1c2833;letter-spacing:.3em;min-width:80px;text-align:center">____</div>
+      <button onclick="borrarPin()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;color:#5d6d7e;padding:.2rem .4rem">⌫</button>
+    </div>
+
+    <!-- Teclado numérico -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1.2rem">
+      <button class="pin-btn" onclick="presionarPin('1')">1</button>
+      <button class="pin-btn" onclick="presionarPin('2')">2</button>
+      <button class="pin-btn" onclick="presionarPin('3')">3</button>
+      <button class="pin-btn" onclick="presionarPin('4')">4</button>
+      <button class="pin-btn" onclick="presionarPin('5')">5</button>
+      <button class="pin-btn" onclick="presionarPin('6')">6</button>
+      <button class="pin-btn" onclick="presionarPin('7')">7</button>
+      <button class="pin-btn" onclick="presionarPin('8')">8</button>
+      <button class="pin-btn" onclick="presionarPin('9')">9</button>
+      <button class="pin-btn" onclick="limpiarPin()" style="background:#fdecea;color:#c0392b">C</button>
+      <button class="pin-btn" onclick="presionarPin('0')">0</button>
+      <button class="pin-btn" onclick="verificarPin()" style="background:linear-gradient(135deg,#1b5e37,#27ae60);color:#fff;font-size:1.2rem">✓</button>
+    </div>
+
+    <div style="font-size:.72rem;color:#aab7b8">Contacta al administrador si olvidaste tu PIN</div>
+  </div>
+</div>
+
+<style>
+.pin-btn{
+  background:#f4f6f7;border:none;border-radius:12px;padding:.9rem;
+  font-size:1.2rem;font-weight:600;color:#1c2833;cursor:pointer;
+  transition:all .15s;-webkit-tap-highlight-color:transparent;
+  box-shadow:0 2px 6px rgba(0,0,0,.08)
+}
+.pin-btn:active{transform:scale(.93);background:#e8ecf0}
+</style>
+
+<div id="initSpinner" style="position:fixed;inset:0;background:#1b5e37;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;transition:opacity .5s">
+<div style="font-size:3rem;margin-bottom:1rem;animation:spin 2s linear infinite">🍃</div>
+<div style="color:#fff;font-size:1rem;font-weight:600;letter-spacing:.05em">Cargando dashboard...</div>
+<div style="color:rgba(255,255,255,.7);font-size:.8rem;margin-top:.5rem">Fermentación de Tabaco</div>
+<style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>
+</div>
+<div class="hdr">
+<div class="hdr-top">
+<div class="hdr-brand">
+<div class="hdr-logo">🍃</div>
+<div>
+<div class="hdr-ttl">Dashboard Gerencial — Fermentación de Tabaco</div>
+<div class="hdr-sub">Control y Seguimiento de Actividades · Empresa Procesadora</div>
+</div>
+</div>
+<div class="hdr-right no-print">
+<div style="display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:.4rem .9rem">
+<div id="gsDot" style="width:9px;height:9px;border-radius:50%;background:#f39c12;flex-shrink:0"></div>
+<span id="gsLbl" style="font-size:.75rem;font-weight:500">Conectando...</span>
+<button onclick="loadFromSheets()" title="Recargar desde Google Sheets" style="background:none;border:none;color:#fff;cursor:pointer;font-size:.85rem;padding:0 0 0 .3rem;opacity:.8">↻</button>
+</div>
+<div class="hdr-date" id="hdrFecha"></div>
+<button class="bh" onclick="imprimirDashboard()">🖨 Imprimir</button>
+<button class="bh" onclick="exportCSV()">📥 CSV</button>
+</div>
+</div>
+</div>
+<div class="tabs no-print">
+<button class="tab active" onclick="showTab('dash',this)">📊 Dashboard</button>
+<button class="tab" onclick="showTab('moja',this)">🌿 Mojas</button>
+<button class="tab" onclick="showTab('soltar',this)">📦 Soltar</button>
+<button class="tab" onclick="showTab('atrasos',this)">⏰ Atrasos</button>
+<button class="tab" onclick="showTab('jefes',this)">👤 Por Jefe</button>
+<button class="tab" onclick="showTab('zonas',this)">📍 Por Zona</button>
+<button class="tab" onclick="showTab('detalle',this)">📋 Detalle</button>
+<button class="tab" onclick="showTab('ingreso',this)">➕ Ingresar / Editar</button>
+</div>
+<div class="page active" id="page-dash">
+<div class="kr k5" id="kpiMain"></div>
+<div class="g2">
+<div class="card"><div class="chdr"><div><div class="cttl">Estado por tipo de actividad</div><div class="csub">Completados vs. pendientes</div></div></div>
+<div class="ch ch-md"><canvas id="cActStatus"></canvas></div></div>
+<div class="card"><div class="chdr"><div><div class="cttl">Distribución general</div></div></div>
+<div style="display:flex;gap:1rem;align-items:center">
+<div class="ch" style="height:200px;flex:1"><canvas id="cDonut"></canvas></div>
+<div id="donutLeg" style="flex:0 0 148px"></div></div></div>
+</div>
+<div class="g2">
+<div class="card"><div class="chdr"><div><div class="cttl">QQs por jefe — total vs. pendiente</div></div></div>
+<div class="ch ch-md"><canvas id="cJefeQQ"></canvas></div></div>
+<div class="card">
+<div class="chdr"><div><div class="cttl">🏆 Top 6 — pilones con más días de atraso</div><div class="csub">Solo pendientes · mayor a menor atraso</div></div></div>
+<div id="top6"></div></div>
+</div>
+<div class="card"><div class="chdr"><div><div class="cttl">Distribución de QQs por zona geográfica</div></div></div>
+<div id="zonaHeat"></div></div>
+</div>
+<div class="page" id="page-moja">
+<div class="kr k4" id="kpiMoja"></div>
+<div class="g2">
+<div class="card"><div class="chdr"><div><div class="cttl">Estado por tipo de moja</div></div></div>
+<div class="ch ch-lg"><canvas id="cMojaBar"></canvas></div></div>
+<div class="card"><div class="chdr"><div><div class="cttl">Avance por actividad</div></div></div>
+<div id="mojaProgreso" style="padding:.3rem 0"></div></div>
+</div>
+<div class="card"><div class="chdr"><div><div class="cttl">Resumen por tipo de moja</div></div></div>
+<div class="twrap"><table><thead><tr><th>Actividad</th><th>Total</th><th class="num">QQs</th><th>Realizados</th><th>No realizados</th><th>% Avance</th><th>Mayor atraso</th></tr></thead><tbody id="tblMojaSumm"></tbody></table></div></div>
+<div class="card"><div class="chdr"><div><div class="cttl">Pilones MOJA — REALIZADO = NO (pendientes)</div><div class="csub">Días acumulando automáticamente</div></div></div>
+<div class="twrap"><table><thead><tr><th>#</th><th>Pilón</th><th>Jefe</th><th>Zona</th><th>Actividad</th><th class="num">QQs</th><th>Mes Prog.</th><th>Días transcurridos</th></tr></thead><tbody id="tblMojaPend"></tbody></table></div></div>
+</div>
+<div class="page" id="page-soltar">
+<div class="kr k3" id="kpiSoltar"></div>
+<div class="g2">
+<div class="card"><div class="chdr"><div><div class="cttl">Estado de actividad SOLTAR</div><div class="csub">3 estados: pendiente · suelto pend.acond. · completo</div></div></div>
+<div class="ch ch-lg"><canvas id="cSoltarDonut"></canvas></div></div>
+<div class="card"><div class="chdr"><div><div class="cttl">Resumen de estados SOLTAR</div></div></div>
+<div id="soltarResumen"></div></div>
+</div>
+<div class="card"><div class="chdr"><div><div class="cttl">🔴 Pendientes de soltar — SUELTO = NO</div><div class="csub">Días siguen acumulando automáticamente</div></div></div>
+<div class="twrap"><table><thead><tr><th>#</th><th>Pilón</th><th>Jefe</th><th>Zona</th><th class="num">QQs</th><th>Mes Prog.</th><th>Días atraso</th></tr></thead><tbody id="tblSoltarPend"></tbody></table></div></div>
+<div class="card" id="cardSPA"><div class="chdr"><div><div class="cttl">⚠️ Sueltos pendientes de acondicionar — ACONDICIONADO = NO</div><div class="csub">Fecha suelto registrada · falta acondicionamiento</div></div></div>
+<div class="twrap"><table><thead><tr><th>#</th><th>Pilón</th><th>Jefe</th><th>Zona</th><th class="num">QQs</th><th>Fecha suelto</th><th>Días (mes→hoy)</th><th>Acondicionado</th></tr></thead><tbody id="tblSPA"></tbody></table></div></div>
+<div class="card"><div class="chdr"><div><div class="cttl">✅ Sueltos y acondicionados — proceso completo</div><div class="csub">SUELTO = fecha · ACONDICIONADO = fecha</div></div></div>
+<div class="twrap"><table><thead><tr><th>#</th><th>Pilón</th><th>Jefe</th><th>Zona</th><th class="num">QQs</th><th>Fecha suelto</th><th>Fecha acond.</th><th>Días (mes→acond.)</th></tr></thead><tbody id="tblSoltarOk"></tbody></table></div></div>
+</div>
+<div class="page" id="page-atrasos">
+<div class="kr k4" id="kpiAtrasos"></div>
+<div class="g2">
+<div class="card"><div class="chdr"><div><div class="cttl">Pilones pendientes por rango de días</div></div></div>
+<div class="ch ch-md"><canvas id="cRangos"></canvas></div></div>
+<div class="card"><div class="chdr"><div><div class="cttl">Días promedio de atraso por jefe</div></div></div>
+<div class="ch ch-md"><canvas id="cDiasJefe"></canvas></div></div>
+</div>
+<div class="card"><div class="chdr"><div><div class="cttl">Ranking completo de pilones pendientes</div><div class="csub">Ordenado por días desde MES PROGRAMA</div></div></div>
+<div class="twrap"><table><thead><tr><th>#</th><th>Pilón</th><th>Jefe</th><th>Zona</th><th>Actividad</th><th class="num">QQs</th><th>Mes Prog.</th><th>Días atraso</th><th>Nivel</th></tr></thead><tbody id="tblAtrasos"></tbody></table></div></div>
+</div>
+<div class="page" id="page-jefes"><div id="jefeCards"></div></div>
+<div class="page" id="page-zonas">
+<div class="card"><div class="chdr"><div><div class="cttl">Resumen por zona geográfica</div></div></div>
+<div class="twrap"><table><thead><tr><th>Zona</th><th class="num">Pilones</th><th class="num">QQs</th><th class="num">Pendientes</th><th class="num">QQs pend.</th><th class="num">Completados</th><th>% Avance</th><th>Días prom.</th></tr></thead><tbody id="tblZonas"></tbody></table></div></div>
+<div class="card"><div class="chdr"><div><div class="cttl">QQs totales vs. pendientes por zona</div></div></div>
+<div class="ch ch-lg"><canvas id="cZonas"></canvas></div></div>
+</div>
+<div class="page" id="page-detalle">
+<div class="filtros no-print">
+<select id="fJefe" onchange="filtrar()"><option value="">Todos los jefes</option></select>
+<select id="fZona" onchange="filtrar()"><option value="">Todas las zonas</option></select>
+<select id="fAct" onchange="filtrar()"><option value="">Todas las actividades</option></select>
+<select id="fSt" onchange="filtrar()">
+<option value="">Todos los estados</option>
+<option>REALIZADO</option><option>NO REALIZADO</option>
+<option>SUELTO+ACONDICIONADO</option><option>SUELTO PEND. ACONDICIONAR</option><option>PENDIENTE SOLTAR</option>
+</select>
+<input type="text" id="fBusc" placeholder="Buscar pilón..." oninput="filtrar()">
+<button class="bs" onclick="resetF()">✕ Limpiar</button>
+<span class="fcnt" id="fcnt"></span>
+</div>
+<div class="card" style="padding:0;overflow:hidden">
+<div class="twrap"><table>
+<thead><tr><th>#</th><th>Mes Prog.</th><th>Pilón</th><th>Jefe</th><th>Zona</th><th class="num">QQs</th><th>Actividad</th><th>Realizado</th><th>Suelto</th><th>Acondicionado</th><th>Días</th><th>Estado</th></tr></thead>
+<tbody id="tblDet"></tbody></table></div>
+<div class="pag no-print" id="pag"></div></div>
+</div>
+<div class="page" id="page-ingreso">
+<div class="g2" style="align-items:start">
+<div>
+<div class="card">
+<div class="chdr"><div><div class="cttl">➕ Registrar nuevo pilón</div></div></div>
+<div class="aok" id="alertOk">✅ Pilón registrado. Dashboard actualizado.</div>
+<div class="fgrid">
+<div class="fg"><label class="flbl">Mes programado *</label><input type="date" class="fin" id="nMes"></div>
+<div class="fg"><label class="flbl">Código pilón *</label><input type="text" class="fin" id="nPilon" placeholder="PI-XXXX"></div>
+<div class="fg"><label class="flbl">Jefe *</label>
+<select class="fsel" id="nJefe"><option value="">Seleccionar...</option>
+<option>Alvaro M.</option><option>Carlos T.</option><option>German F.</option>
+<option>Nixon L.</option><option>Raul M.</option><option>Sabdiel Ch.</option></select></div>
+<div class="fg"><label class="flbl">Zona *</label>
+<select class="fsel" id="nZona"><option value="">Seleccionar...</option>
+<option>Pueblo N.</option><option>Ometepe</option><option>Esteli F.</option>
+<option>Jalapa</option><option>Jalapa Tap</option><option>Condega</option><option>Mixta</option></select></div>
+<div class="fg"><label class="flbl">QQs *</label><input type="number" step="0.01" class="fin" id="nQqs" placeholder="0.00"></div>
+<div class="fg"><label class="flbl">Actividad *</label>
+<select class="fsel" id="nAct" onchange="togN()"><option value="">Seleccionar...</option>
+<option>1ERA. MOJA</option><option>2DA MOJA</option><option>3ER. MOJA</option><option>SOLTAR</option></select></div>
+</div>
+<div class="hr"></div>
+<div id="camMoja">
+<div class="fgrid" style="grid-template-columns:1fr 1fr">
+<div class="fg"><label class="flbl">Realizado (NO ó fecha AAAA-MM-DD)</label><input type="text" class="fin" id="nReal" placeholder="NO o 2026-05-18"></div>
+</div>
+</div>
+<div id="camSoltar" style="display:none">
+<div class="fgrid" style="grid-template-columns:1fr 1fr">
+<div class="fg"><label class="flbl">Suelto (NO ó fecha)</label><input type="text" class="fin" id="nSuelto" placeholder="NO o 2026-05-18"></div>
+<div class="fg"><label class="flbl">Acondicionado</label>
+<select class="fsel" id="nAcond"><option value="">— Sin dato —</option>
+<option value="NO">NO — pendiente acondicionar</option></select></div>
+</div>
+</div>
+<div class="hr"></div>
+<div style="display:flex;gap:.7rem">
+<button class="bp" onclick="agregar()">✅ Registrar</button>
+<button class="bs" onclick="limpF()">✕ Limpiar</button>
+</div>
+</div>
+<div class="card">
+<div class="chdr"><div><div class="cttl">✏️ Buscar, editar o eliminar pilón</div><div class="csub">Busca por código · modifica campos · elimina duplicados</div></div></div>
+<div class="fg" style="margin-bottom:.8rem">
+<label class="flbl">Buscar pilón</label>
+<input type="text" class="fin" id="eBusc" placeholder="Ej: PI-122" oninput="buscarEditar()">
+</div>
+<div id="eRes"></div>
+</div>
+</div>
+<div>
+<div class="card">
+<div class="chdr"><div><div class="cttl">📖 Lógica del sistema</div></div></div>
+<div style="font-size:.8rem;line-height:1.85;color:var(--txt2)">
+<p style="margin-bottom:.6rem;padding:.5rem .8rem;background:var(--az3);border-radius:6px;border-left:3px solid var(--az2)">
+<strong style="color:var(--az)">🌿 MOJA (1era / 2da / 3era)</strong><br>
+• <strong>REALIZADO = NO</strong> → Días acumulan automáticamente: HOY − Mes Prog.<br>
+• <strong>REALIZADO = Fecha</strong> → Conteo fijo: Fecha − Mes Prog.</p>
+<p style="padding:.5rem .8rem;background:var(--mo3);border-radius:6px;border-left:3px solid var(--mo2)">
+<strong style="color:var(--mo)">📦 SOLTAR</strong><br>
+• <strong>SUELTO = NO</strong> → Pendiente soltar, días acumulan<br>
+• <strong>SUELTO = Fecha + ACOND = NO</strong> → ⚠️ Suelto, pend. acondicionar<br>
+• <strong>SUELTO = Fecha + ACOND = Fecha</strong> → ✅ Completo, días = Acond. − Mes Prog.</p>
+</div>
+</div>
+<div class="card">
+<div class="chdr"><div><div class="cttl">📂 Importar CSV</div></div></div>
+<div class="drop-zone" onclick="document.getElementById('csvFile').click()">
+<div style="font-size:2rem;margin-bottom:.5rem">📂</div>
+<div style="font-weight:600;margin-bottom:.4rem">Clic para seleccionar un CSV</div>
+<div style="font-size:.75rem;color:var(--g)">Columnas: mes, jefe, zona, pilon, qqs, actividad, realizado, suelto, acondicionado</div>
+</div>
+<input type="file" id="csvFile" accept=".csv" style="display:none" onchange="importCSV(event)">
+</div>
+</div>
+</div>
+</div>
+<div class="modal-bg" id="modalEdit">
+<div class="modal-box">
+<div class="modal-hdr">
+<div class="modal-ttl">✏️ Editar pilón — <span id="mEditId" style="color:var(--v)"></span></div>
+<button class="modal-x" onclick="closeModal()">✕</button>
+</div>
+<div class="aok" id="mEditOk"></div>
+<div class="fgrid" style="grid-template-columns:1fr 1fr">
+<div class="fg"><label class="flbl">Mes programado</label><input type="date" class="fin" id="eMes"></div>
+<div class="fg"><label class="flbl">Código pilón</label><input type="text" class="fin" id="ePilon"></div>
+<div class="fg"><label class="flbl">Jefe</label>
+<select class="fsel" id="eJefe"><option value="">Seleccionar...</option>
+<option>Alvaro M.</option><option>Carlos T.</option><option>German F.</option>
+<option>Nixon L.</option><option>Raul M.</option><option>Sabdiel Ch.</option></select></div>
+<div class="fg"><label class="flbl">Zona</label>
+<select class="fsel" id="eZona"><option value="">Seleccionar...</option>
+<option>Pueblo N.</option><option>Ometepe</option><option>Esteli F.</option>
+<option>Jalapa</option><option>Jalapa Tap</option><option>Condega</option><option>Mixta</option></select></div>
+<div class="fg"><label class="flbl">QQs</label><input type="number" step="0.01" class="fin" id="eQqs"></div>
+<div class="fg"><label class="flbl">Actividad</label>
+<select class="fsel" id="eAct" onchange="togE()">
+<option>1ERA. MOJA</option><option>2DA MOJA</option><option>3ER. MOJA</option><option>SOLTAR</option></select></div>
+</div>
+<div class="hr"></div>
+<div id="eCamMoja">
+<div class="fgrid" style="grid-template-columns:1fr 1fr">
+<div class="fg"><label class="flbl">Realizado (NO ó fecha AAAA-MM-DD)</label><input type="text" class="fin" id="eReal" placeholder="NO o 2026-05-18"></div>
+</div>
+</div>
+<div id="eCamSoltar" style="display:none">
+<div class="fgrid" style="grid-template-columns:1fr 1fr">
+<div class="fg"><label class="flbl">Suelto (NO ó fecha)</label><input type="text" class="fin" id="eSuelto" placeholder="NO o 2026-05-18"></div>
+<div class="fg"><label class="flbl">Acondicionado (NO ó fecha ó vacío)</label><input type="text" class="fin" id="eAcond" placeholder="NO o 2026-05-22"></div>
+</div>
+</div>
+<div class="hr"></div>
+<div style="display:flex;gap:.7rem;justify-content:flex-end">
+<button class="bs" onclick="closeModal()">Cancelar</button>
+<button class="bp" onclick="guardar()">💾 Guardar cambios</button>
+</div>
+</div>
+</div>
+<div class="modal-bg" id="modalDel">
+<div class="del-box">
+<div style="font-size:2.5rem;margin-bottom:.5rem">🗑️</div>
+<div style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:.5rem">Eliminar pilón</div>
+<div id="mDelMsg" style="font-size:.85rem;color:var(--g);margin-bottom:1.2rem"></div>
+<div style="background:var(--r3);border-radius:8px;padding:.7rem;font-size:.8rem;color:var(--r);margin-bottom:1.2rem;font-weight:600">⚠️ Esta acción no se puede deshacer</div>
+<div style="display:flex;gap:.7rem;justify-content:center">
+<button class="bs" onclick="closeDelModal()">Cancelar</button>
+<button style="padding:.65rem 1.4rem;background:var(--r);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer" onclick="confirmDel()">🗑️ Sí, eliminar</button>
+</div>
+</div>
+</div>
+<script>
+// ══════════════ SISTEMA DE SEGURIDAD PIN ══════════════
+const PIN_LECTURA = '2025';    // Jefes y colegas — solo lectura
+const PIN_ADMIN   = '8520';    // Administrador — acceso total
+
+let pinIngresado = '';
+let rolActual = '';  // 'lectura' | 'admin'
+
+function presionarPin(num){
+  if(pinIngresado.length >= 4) return;
+  pinIngresado += num;
+  actualizarDisplay();
+  if(pinIngresado.length === 4){
+    setTimeout(verificarPin, 200);
+  }
+}
+
+function actualizarDisplay(){
+  const display = document.getElementById('pinDisplay');
+  const dots = pinIngresado.replace(/./g,'●');
+  const blanks = '____'.slice(dots.length);
+  display.textContent = dots + blanks;
+
+  // Mostrar pista del rol mientras escribe
+  const rolDiv = document.getElementById('loginRol');
+  if(pinIngresado.length > 0){
+    if(PIN_ADMIN.startsWith(pinIngresado)){
+      rolDiv.style.display='block';
+      rolDiv.style.background='#d4edda';
+      rolDiv.style.color='#1b5e37';
+      rolDiv.textContent='👑 Modo Administrador detectado';
+    } else if(PIN_LECTURA.startsWith(pinIngresado)){
+      rolDiv.style.display='block';
+      rolDiv.style.background='#eaf4fb';
+      rolDiv.style.color='#1a4f7a';
+      rolDiv.textContent='👁 Modo Lectura detectado';
+    } else {
+      rolDiv.style.display='none';
+    }
+  } else {
+    rolDiv.style.display='none';
+  }
+}
+
+function limpiarPin(){
+  pinIngresado = '';
+  actualizarDisplay();
+  document.getElementById('loginError').style.display='none';
+  document.getElementById('loginRol').style.display='none';
+}
+
+function borrarPin(){
+  pinIngresado = pinIngresado.slice(0,-1);
+  actualizarDisplay();
+}
+
+function verificarPin(){
+  if(pinIngresado === PIN_ADMIN){
+    rolActual = 'admin';
+    entrarDashboard('admin');
+  } else if(pinIngresado === PIN_LECTURA){
+    rolActual = 'lectura';
+    entrarDashboard('lectura');
+  } else {
+    // PIN incorrecto
+    pinIngresado = '';
+    actualizarDisplay();
+    const err = document.getElementById('loginError');
+    err.style.display = 'block';
+    document.getElementById('loginRol').style.display='none';
+    // Vibrar en móvil
+    if(navigator.vibrate) navigator.vibrate([100,50,100]);
+    setTimeout(()=>err.style.display='none', 3000);
+  }
+}
+
+function entrarDashboard(rol){
+  const login = document.getElementById('loginScreen');
+  login.style.opacity='0';
+  login.style.transition='opacity .4s';
+  setTimeout(()=>{ if(login.parentNode) login.parentNode.removeChild(login); },500);
+
+  // Aplicar restricciones según rol
+  if(rol === 'lectura'){
+    aplicarModoLectura();
+  } else {
+    // Admin: mostrar badge
+    mostrarBadgeAdmin();
+  }
+}
+
+function aplicarModoLectura(){
+  // Ocultar pestaña de ingreso/edición
+  document.querySelectorAll('.tab').forEach(t=>{
+    if(t.textContent.includes('Ingresar')) t.style.display='none';
+  });
+  // Bloquear botones de editar/eliminar/registrar cuando se rendericen
+  window._modoLectura = true;
+  // Inyectar CSS para ocultar controles de modificación
+  const style = document.createElement('style');
+  style.textContent = `
+    .btn-del, .btn-edit, .bp, #alertOk,
+    [onclick*="agregar"], [onclick*="guardar"],
+    [onclick*="confirmDel"], [onclick*="marcarReal"],
+    [onclick*="marcarSuelto"], [onclick*="marcarAcond"],
+    #page-ingreso { display:none!important }
+    .bh[onclick*="exportCSV"]{ display:none!important }
+  `;
+  document.head.appendChild(style);
+
+  // Mostrar badge de rol
+  const badge = document.createElement('div');
+  badge.style.cssText='position:fixed;bottom:1rem;left:1rem;background:#eaf4fb;color:#1a4f7a;border:1.5px solid #2980b9;border-radius:20px;padding:.35rem .85rem;font-size:.75rem;font-weight:700;z-index:9000;box-shadow:0 2px 8px rgba(0,0,0,.1)';
+  badge.textContent='👁 Modo lectura';
+  document.body.appendChild(badge);
+}
+
+function mostrarBadgeAdmin(){
+  const badge = document.createElement('div');
+  badge.style.cssText='position:fixed;bottom:1rem;left:1rem;background:#d4edda;color:#1b5e37;border:1.5px solid #27ae60;border-radius:20px;padding:.35rem .85rem;font-size:.75rem;font-weight:700;z-index:9000;box-shadow:0 2px 8px rgba(0,0,0,.1)';
+  badge.textContent='👑 Administrador';
+  document.body.appendChild(badge);
+}
+
+// Soporte teclado físico para el PIN
+document.addEventListener('keydown', e=>{
+  if(document.getElementById('loginScreen')){
+    if(e.key>='0'&&e.key<='9') presionarPin(e.key);
+    else if(e.key==='Enter') verificarPin();
+    else if(e.key==='Backspace') borrarPin();
+    else if(e.key==='Escape') limpiarPin();
+  }
+});
+
+// Función para ocultar pantalla de carga
+function ocultarSpinner(){
+  const sp=document.getElementById('initSpinner');
+  if(sp){sp.style.opacity='0';setTimeout(function(){if(sp.parentNode)sp.parentNode.removeChild(sp);},600);}
+}
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVgAiJTVMgh0xdnhVtOo5s4C723LuT2ArdhzqiBTYLmw2Yur0zaXsF-3dQ48WPjTZg/exec';
+const HOY = new Date();
+const HOY_STR = HOY.toISOString().slice(0,10);
+// ── GOOGLE SHEETS API ─────────────────────────────────────────
+// Estado de conexión
+let GS_CONNECTED = false;
+let GS_LOADING = false;
+function showToast(msg, type='info', dur=3500){
+let t=document.getElementById('gsToast');
+if(!t){t=document.createElement('div');t.id='gsToast';
+t.style.cssText='position:fixed;bottom:1.4rem;right:1.4rem;z-index:99999;padding:.75rem 1.2rem;border-radius:10px;font-size:.83rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);transition:all .3s;max-width:320px;display:none';
+document.body.appendChild(t);}
+const styles={info:'background:#eaf4fb;color:#1a4f7a;border-left:4px solid #2980b9',
+ok:'background:#d4edda;color:#1b5e37;border-left:4px solid #27ae60',
+err:'background:#fdecea;color:#c0392b;border-left:4px solid #e74c3c',
+warn:'background:#fef9e7;color:#d68910;border-left:4px solid #f39c12'};
+t.style.cssText+=';'+styles[type]||styles.info;
+t.textContent=msg; t.style.display='block';
+clearTimeout(t._to); t._to=setTimeout(()=>t.style.display='none', dur);
+}
+function setStatus(connected){
+GS_CONNECTED=connected;
+const dot=document.getElementById('gsDot'), lbl=document.getElementById('gsLbl');
+if(dot){ dot.style.background=connected?'#27ae60':'#e74c3c'; }
+if(lbl){ lbl.textContent=connected?'Google Sheets conectado':'Sin conexión (datos locales)'; }
+}
+// Cargar datos desde Google Sheets al abrir el archivo
+async function loadFromSheets(){
+GS_LOADING=true;
+const dot=document.getElementById('gsDot');
+if(dot) dot.style.background='#f39c12';
+try{
+const res = await fetch(SCRIPT_URL+'?t='+Date.now(), {method:'GET',mode:'cors'});
+const json = await res.json();
+if(json.status==='ok' && Array.isArray(json.data) && json.data.length>0){
+// ── NORMALIZACIÓN ROBUSTA DE DATOS DESDE GOOGLE SHEETS ──────
+// Convierte cualquier formato de fecha a YYYY-MM-DD
+// Maneja: "2026-05-05", "5/5/2026", "05/05/2026", serial Excel (46777), vacío
+function normFecha(v){
+if(v===null||v===undefined) return '';
+const s=String(v).trim();
+if(s===''||s==='0'||s==='false'||s==='null'||s==='undefined') return '';
+// Texto "NO" → devolver "NO"
+if(/^NO$/i.test(s)) return 'NO';
+// Ya formato correcto YYYY-MM-DD
+if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+// Formato DD/MM/YYYY (latinoamérica)
+if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)){
+const p=s.split('/');
+return `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
+}
+// Formato YYYY/MM/DD
+if(/^\d{4}\/\d{2}\/\d{2}$/.test(s)){
+return s.replace(/\//g,'-');
+}
+// Serial numérico de Excel/Sheets (número entre 40000 y 60000)
+const num=parseFloat(s);
+if(!isNaN(num)&&num>40000&&num<60000){
+const d=new Date(Math.round((num-25569)*86400*1000));
+return d.toISOString().slice(0,10);
+}
+// Intentar parseo nativo como último recurso
+try{
+const d=new Date(s);
+if(!isNaN(d.getTime())&&d.getFullYear()>=2020&&d.getFullYear()<=2035)
+return d.toISOString().slice(0,10);
+}catch(e){}
+return ''; // Si no es parseable, devolver vacío (no contaminar datos)
+}
+// Convierte QQs a número float con 2 decimales
+// El Apps Script v3 ya garantiza que qqs llega como número puro
+// Esta función solo hace limpieza adicional del lado del cliente
+function normQQs(v){
+if(v===null||v===undefined||v==='') return 0;
+// Si llega como Date object (no debería con el nuevo script)
+if(v instanceof Date) return 0;
+const s=String(v).trim().replace(',','.');  // "40,33" → "40.33"
+const n=parseFloat(s);
+if(isNaN(n)||n<0) return 0;        // Solo rechazar negativos e inválidos
+return Math.round(n*100)/100;       // Redondear a 2 decimales exactos
+}
+const rawCount=json.data.length;
+DATA = json.data
+.filter(r=>{
+const p=String(r.pilon||'').trim();
+return p!==''&&p!=='pilon'&&p!=='PILON'; // excluir vacíos y la fila de encabezado si se cuela
+})
+.map(r=>({
+mes:           normFecha(r.mes),
+jefe:          String(r.jefe||'').trim(),
+zona:          String(r.zona||'').trim(),
+pilon:         String(r.pilon||'').trim(),
+qqs:           normQQs(r.qqs),
+actividad:     String(r.actividad||'').trim().toUpperCase()
+.replace('1ERA.MOJA','1ERA. MOJA')
+.replace('2DAMOJA','2DA MOJA')
+.replace('3ER.MOJA','3ER. MOJA'),
+realizado:     normFecha(r.realizado),
+suelto:        normFecha(r.suelto),
+acondicionado: normFecha(r.acondicionado)
+}))
+.filter(r=>r.jefe!==''&&r.actividad!==''&&r.mes!=='');
+console.log(`[GSheets] Filas recibidas: ${rawCount} → Válidas: ${DATA.length}`);
+console.log(`[GSheets] Total QQs: ${DATA.reduce((a,r)=>a+r.qqs,0).toFixed(2)}`);
+const qqSample=DATA.slice(0,3).map(r=>`${r.pilon}=${r.qqs}QQs mes=${r.mes}`);
+console.log('[GSheets] Muestra:', qqSample.join(' | '));
+setStatus(true);
+showToast('✅ Datos cargados desde Google Sheets ('+DATA.length+' pilones)', 'ok');
+renderAll();
+ocultarSpinner();
+} else {
+setStatus(false);
+showToast('⚠️ Google Sheets vacío — usando datos locales del archivo', 'warn');
+ocultarSpinner();
+}
+} catch(e){
+setStatus(false);
+showToast('📡 Sin conexión — usando datos locales del archivo', 'warn', 5000);
+ocultarSpinner();
+}
+GS_LOADING=false;
+}
+// Enviar acción a Google Sheets (add / update / delete)
+async function syncToSheets(action, record, key=null){
+if(!GS_CONNECTED) return;
+try{
+const body = key ? {action, record, key} : {action, record};
+await fetch(SCRIPT_URL, {
+method:'POST', mode:'no-cors',
+headers:{'Content-Type':'text/plain'},
+body: JSON.stringify(body)
+});
+} catch(e){
+showToast('⚠️ No se pudo sincronizar con Google Sheets', 'warn');
+}
+}
+let DATA = [{"mes":"2026-05-05","jefe":"Alvaro M.","zona":"Pueblo N.","pilon":"PI-352","qqs":27.03,"actividad":"1ERA. MOJA","realizado":"2026-05-19","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Alvaro M.","zona":"Pueblo N.","pilon":"PI-589","qqs":20.97,"actividad":"1ERA. MOJA","realizado":"2026-05-19","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Alvaro M.","zona":"Condega","pilon":"PI-341","qqs":29.72,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Alvaro M.","zona":"Condega","pilon":"PI-270","qqs":28.34,"actividad":"1ERA. MOJA","realizado":"2026-05-19","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Esteli F.","pilon":"PI-392","qqs":40.0,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Jalapa","pilon":"PI-55","qqs":39.42,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-266","qqs":40.13,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-153","qqs":40.85,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-173","qqs":38.73,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-295","qqs":39.97,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Pueblo N.","pilon":"PI-151","qqs":40.33,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-205","qqs":39.89,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Jalapa","pilon":"PI-48","qqs":42.61,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-175","qqs":40.0,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Jalapa","pilon":"PI-1474","qqs":40.93,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-293","qqs":38.59,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1342","qqs":36.16,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-267","qqs":37.27,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-298","qqs":40.0,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-279","qqs":40.0,"actividad":"1ERA. MOJA","realizado":"2026-05-18","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-382","qqs":29.97,"actividad":"1ERA. MOJA","realizado":"2026-05-18","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Pueblo N.","pilon":"PI-297","qqs":18.05,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-387","qqs":28.89,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"German F.","zona":"Pueblo N.","pilon":"PI-218","qqs":39.88,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"German F.","zona":"Pueblo N.","pilon":"PI-223","qqs":43.9,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"German F.","zona":"Jalapa","pilon":"PI-1472","qqs":34.77,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"German F.","zona":"Jalapa","pilon":"PI-1451","qqs":38.57,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-150","qqs":40.0,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Jalapa","pilon":"PI-39","qqs":40.33,"actividad":"SOLTAR","realizado":"","suelto":"2026-04-20","acondicionado":"2026-05-05"},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-178","qqs":40.5,"actividad":"3ER. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-137","qqs":40.65,"actividad":"3ER. MOJA","realizado":"2026-05-21","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Pueblo N.","pilon":"PI-135","qqs":27.05,"actividad":"3ER. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-154","qqs":39.41,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-177","qqs":38.35,"actividad":"3ER. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-268","qqs":38.28,"actividad":"3ER. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-278","qqs":40.05,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-363","qqs":29.07,"actividad":"1ERA. MOJA","realizado":"2026-05-18","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-1320","qqs":28.68,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-358","qqs":29.81,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-365","qqs":29.97,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-1365","qqs":28.46,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-457","qqs":25.21,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-424","qqs":30.0,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-03-13","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-357","qqs":28.51,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1312","qqs":34.74,"actividad":"SOLTAR","realizado":"","suelto":"2026-03-30","acondicionado":"2026-05-04"},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1313","qqs":33.4,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1329","qqs":36.48,"actividad":"3ER. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1330","qqs":36.93,"actividad":"3ER. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1331","qqs":35.15,"actividad":"3ER. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Esteli F.","pilon":"PI-1444","qqs":40.49,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Esteli F.","pilon":"PI-1441","qqs":38.57,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Esteli F.","pilon":"PI-1440","qqs":39.14,"actividad":"1ERA. MOJA","realizado":"2026-05-19","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1333","qqs":37.26,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Esteli F.","pilon":"PI-1436","qqs":40.49,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1334","qqs":38.47,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1335","qqs":36.1,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Esteli F.","pilon":"PI-1324","qqs":40.0,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-19","acondicionado":"NO"},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1344","qqs":26.91,"actividad":"2DA MOJA","realizado":"2026-05-20","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1341","qqs":35.4,"actividad":"SOLTAR","realizado":"","suelto":"2026-04-07","acondicionado":"NO"},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1336","qqs":37.12,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-12","acondicionado":"2026-05-22"},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1343","qqs":36.67,"actividad":"SOLTAR","realizado":"","suelto":"2026-03-31","acondicionado":"2026-04-27"},{"mes":"2025-03-13","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1345","qqs":33.47,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Esteli F.","pilon":"PI-1401","qqs":40.0,"actividad":"3ER. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1346","qqs":34.7,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-1424","qqs":25.85,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-20","acondicionado":"NO"},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1347","qqs":33.04,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-152","qqs":20.13,"actividad":"2DA MOJA","realizado":"2026-05-04","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-1348","qqs":34.56,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-288","qqs":40.0,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Nixon L.","zona":"Ometepe","pilon":"PI-1378","qqs":41.99,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-07","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Esteli F.","pilon":"PI-1402","qqs":38.06,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-22","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Nixon L.","zona":"Ometepe","pilon":"PI-1352","qqs":34.11,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-20","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-484","qqs":34.53,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Ometepe","pilon":"PI-486","qqs":34.36,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-286","qqs":40.0,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-391","qqs":40.0,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2025-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-284","qqs":39.42,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-296","qqs":40.08,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-289","qqs":40.6,"actividad":"SOLTAR","realizado":"","suelto":"2026-03-31","acondicionado":"2026-04-23"},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-277","qqs":39.43,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-164","qqs":37.56,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-206","qqs":40.0,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"German F.","zona":"Jalapa","pilon":"PI-1452","qqs":33.02,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-155","qqs":40.0,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-176","qqs":39.0,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-398","qqs":40.16,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-309","qqs":38.74,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-281","qqs":34.57,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-304","qqs":39.65,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Carlos T.","zona":"Ometepe","pilon":"PI-1416","qqs":27.68,"actividad":"2DA MOJA","realizado":"2026-05-18","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-172","qqs":40.26,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-03-13","jefe":"Sabdiel Ch.","zona":"Pueblo N.","pilon":"PI-161","qqs":37.65,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"German F.","zona":"Jalapa","pilon":"PI-1467","qqs":20.5,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-423","qqs":32.35,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-373","qqs":28.85,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Ometepe","pilon":"PI-1413","qqs":28.53,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-03-13","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-1420","qqs":29.6,"actividad":"SOLTAR","realizado":"","suelto":"2026-03-30","acondicionado":"2026-04-16"},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Ometepe","pilon":"PI-1415","qqs":30.36,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-1446","qqs":31.97,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-19","acondicionado":"2026-05-21"},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Ometepe","pilon":"PI-1407","qqs":29.32,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-22","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Ometepe","pilon":"PI-1408","qqs":29.62,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-1423","qqs":29.01,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-18","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Jalapa","pilon":"PI-1500","qqs":40.0,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Ometepe","pilon":"PI-1409","qqs":29.54,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-477","qqs":28.86,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Alvaro M.","zona":"Ometepe","pilon":"PI-1492","qqs":37.15,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-20","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Jalapa","pilon":"PI-1801","qqs":40.83,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Alvaro M.","zona":"Ometepe","pilon":"PI-1490","qqs":34.49,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-21","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-460","qqs":28.15,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Alvaro M.","zona":"Ometepe","pilon":"PI-1485","qqs":26.71,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-14","acondicionado":"2026-05-18"},{"mes":"2026-05-05","jefe":"Alvaro M.","zona":"Ometepe","pilon":"PI-1480","qqs":28.23,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-14","acondicionado":"2026-05-19"},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Jalapa Tap","pilon":"PI-1817","qqs":27.14,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-21","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"German F.","zona":"Mixta","pilon":"PI-1002","qqs":15.03,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Alvaro M.","zona":"Ometepe","pilon":"PI-1493","qqs":36.84,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-15","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Jalapa","pilon":"PI-1470","qqs":27.73,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Alvaro M.","zona":"Ometepe","pilon":"PI-1479","qqs":30.0,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-14","acondicionado":"2026-05-18"},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Jalapa Tap","pilon":"PI-1822","qqs":27.34,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Jalapa Tap","pilon":"PI-1826","qqs":28.24,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-21","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Pueblo N.","pilon":"PI-482","qqs":28.27,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Jalapa Tap","pilon":"PI-1827","qqs":27.77,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Pueblo N.","pilon":"PI-133","qqs":27.83,"actividad":"2DA MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-381","qqs":28.35,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-18","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-375","qqs":28.82,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-14","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Jalapa Tap","pilon":"PI-1835","qqs":27.22,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Jalapa Tap","pilon":"PI-1837","qqs":26.69,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-1363","qqs":28.49,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-15","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Jalapa","pilon":"PI-1824","qqs":41.23,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Nixon L.","zona":"Jalapa Tap","pilon":"PI-1429","qqs":37.55,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-22","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"German F.","zona":"Ometepe","pilon":"PI-1852","qqs":34.7,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-19","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Jalapa Tap","pilon":"PI-1848","qqs":23.61,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-14","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Jalapa Tap","pilon":"PI-1475","qqs":40.74,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-06","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Sabdiel Ch.","zona":"Jalapa","pilon":"PI-1454","qqs":39.46,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-07","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-383","qqs":29.97,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-08","acondicionado":"NO"},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Pueblo N.","pilon":"PI-456","qqs":28.09,"actividad":"SOLTAR","realizado":"","suelto":"NO","acondicionado":""},{"mes":"2026-05-05","jefe":"Carlos T.","zona":"Esteli F.","pilon":"PI-1362","qqs":29.44,"actividad":"1ERA. MOJA","realizado":"NO","suelto":"","acondicionado":""},{"mes":"2026-05-05","jefe":"Raul M.","zona":"Ometepe","pilon":"PI-1391","qqs":39.06,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-18","acondicionado":"2026-05-20"},{"mes":"2026-05-05","jefe":"Raul M.","zona":"Ometepe","pilon":"PI-1393","qqs":32.4,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-19","acondicionado":"2026-05-21"},{"mes":"2026-05-05","jefe":"Raul M.","zona":"Esteli F.","pilon":"PI-1818","qqs":33.26,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-14","acondicionado":"2026-05-19"},{"mes":"2026-05-05","jefe":"Raul M.","zona":"Ometepe","pilon":"PI-1829","qqs":26.43,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-19","acondicionado":"2026-05-21"},{"mes":"2026-05-05","jefe":"Raul M.","zona":"Esteli F.","pilon":"PI-1832","qqs":44.42,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-12","acondicionado":"2026-05-18"},{"mes":"2026-05-05","jefe":"Raul M.","zona":"Ometepe","pilon":"PI-1839","qqs":43.93,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-14","acondicionado":"2026-05-19"},{"mes":"2026-05-05","jefe":"Raul M.","zona":"Ometepe","pilon":"PI-1844","qqs":36.99,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-20","acondicionado":"2026-05-22"},{"mes":"2026-05-05","jefe":"Raul M.","zona":"Ometepe","pilon":"PI-1845","qqs":43.92,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-19","acondicionado":"2026-05-21"},{"mes":"2026-05-05","jefe":"Raul M.","zona":"Ometepe","pilon":"PI-1847","qqs":43.33,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-14","acondicionado":"2026-05-18"},{"mes":"2026-05-05","jefe":"Raul M.","zona":"Esteli F.","pilon":"PI-1855","qqs":27.17,"actividad":"SOLTAR","realizado":"","suelto":"2026-05-14","acondicionado":"2026-05-19"}];
+// ── LÓGICA CENTRAL ──────────────────────────────────────────
+function isD(v){ return !!(v&&v!=='NO'&&v!==''&&/^\d{4}-\d{2}-\d{2}$/.test(v)); }
+function diff(a,b){ return Math.max(0,Math.floor((new Date(b+'T12:00:00')-new Date(a+'T12:00:00'))/86400000)); }
+// MOJA: REALIZADO=NO → días acumulan; REALIZADO=fecha → fijo
+// SOLTAR: SUELTO=NO → pend. soltar, días acumulan
+//         SUELTO=fecha + ACOND=NO → suelto pend. acond., días acumulan (HOY-mes)
+//         SUELTO=fecha + ACOND=fecha → completo, días=acond-mes (fijo)
+function calcDias(r){
+if(r.actividad==='SOLTAR'){
+if(isD(r.suelto)&&isD(r.acondicionado)) return diff(r.mes,r.acondicionado);
+return diff(r.mes,HOY_STR);
+}
+return isD(r.realizado)?diff(r.mes,r.realizado):diff(r.mes,HOY_STR);
+}
+function getStatus(r){
+if(r.actividad==='SOLTAR'){
+if(!isD(r.suelto)) return 'PENDIENTE SOLTAR';
+if(isD(r.acondicionado)) return 'SUELTO+ACONDICIONADO';
+return 'SUELTO PEND. ACONDICIONAR';
+}
+return isD(r.realizado)?'REALIZADO':'NO REALIZADO';
+}
+function isPend(r){ const s=r._s||getStatus(r); return s==='NO REALIZADO'||s==='PENDIENTE SOLTAR'; }
+function enrich(){ return DATA.map(r=>({...r,_d:calcDias(r),_s:getStatus(r)})); }
+function nBadge(d){
+if(d>=90) return {cls:'dc',lbl:'Crítico'};
+if(d>=30) return {cls:'da',lbl:'Alto'};
+if(d>=10) return {cls:'dm',lbl:'Moderado'};
+if(d>0)   return {cls:'dok',lbl:'Reciente'};
+return {cls:'d0',lbl:'0 días'};
+}
+function fF(s){
+if(!s||s==='NO') return s||'—';
+try{ return new Date(s+'T12:00:00').toLocaleDateString('es-NI',{day:'2-digit',month:'short',year:'numeric'}); }
+catch(e){ return s; }
+}
+// ── CHARTS ──────────────────────────────────────────────────
+const CH={};
+function dc(id){ if(CH[id]){CH[id].destroy();delete CH[id];} }
+function mkBar(id,labels,datasets,opts={}){
+dc(id);
+CH[id]=new Chart(document.getElementById(id),{type:'bar',data:{labels,datasets},
+options:{responsive:true,maintainAspectRatio:false,
+plugins:{legend:{labels:{color:'#5d6d7e',font:{size:11}}},...opts.plugins},
+scales:{x:{grid:{display:false},ticks:{color:'#5d6d7e'}},y:{grid:{color:'#f0f3f5'},ticks:{color:'#5d6d7e'}}}}});
+}
+// ── DASHBOARD ────────────────────────────────────────────────
+function renderDash(){
+const d=enrich();
+const tot=d.length, qq=d.reduce((a,r)=>a+r.qqs,0);
+const pend=d.filter(r=>isPend(r));
+const comp=d.filter(r=>r._s==='REALIZADO'||r._s==='SUELTO+ACONDICIONADO');
+const spa=d.filter(r=>r._s==='SUELTO PEND. ACONDICIONAR');
+const maxD=pend.length?Math.max(...pend.map(r=>r._d)):0;
+document.getElementById('kpiMain').innerHTML=`
+<div class="kpi kaz"><div class="kpi-lbl">Total pilones</div><div class="kpi-val">${tot}</div><div class="kpi-sub">${qq.toFixed(2)} QQs totales</div></div>
+<div class="kpi kr2"><div class="kpi-lbl">Pendientes</div><div class="kpi-val">${pend.length}</div>
+<div class="kpi-pct" style="color:var(--r2)">${(pend.length/tot*100).toFixed(1)}%</div>
+<div class="kpi-sub">${pend.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs</div></div>
+<div class="kpi kv"><div class="kpi-lbl">Completados</div><div class="kpi-val">${comp.length}</div>
+<div class="kpi-pct" style="color:var(--v)">${(comp.length/tot*100).toFixed(1)}%</div>
+<div class="kpi-sub">${comp.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs</div></div>
+<div class="kpi ka"><div class="kpi-lbl">Sueltos pend.acond.</div><div class="kpi-val">${spa.length}</div>
+<div class="kpi-pct" style="color:var(--a)">${(spa.reduce((a,r)=>a+r.qqs,0)/qq*100).toFixed(1)}%</div>
+<div class="kpi-sub">${spa.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs</div></div>
+<div class="kpi kmo"><div class="kpi-lbl">Máx. días atraso</div><div class="kpi-val">${maxD}</div><div class="kpi-sub">días acumulados</div></div>`;
+const acts=['1ERA. MOJA','2DA MOJA','3ER. MOJA','SOLTAR'];
+mkBar('cActStatus',acts,[
+{label:'Completados',data:acts.map(a=>d.filter(r=>r.actividad===a&&(r._s==='REALIZADO'||r._s==='SUELTO+ACONDICIONADO')).length),backgroundColor:'#27ae60',borderRadius:5},
+{label:'Suelto pend.acond.',data:acts.map(a=>d.filter(r=>r.actividad===a&&r._s==='SUELTO PEND. ACONDICIONAR').length),backgroundColor:'#f39c12',borderRadius:5},
+{label:'Pendientes',data:acts.map(a=>d.filter(r=>r.actividad===a&&isPend(r)).length),backgroundColor:'#e74c3c',borderRadius:5}]);
+const counts=[comp.length,spa.length,d.filter(r=>r._s==='PENDIENTE SOLTAR').length,d.filter(r=>r._s==='NO REALIZADO').length];
+const dLabels=['Completos','Suelto pend.','Pend.soltar','No realizado'];
+const dColors=['#27ae60','#f39c12','#c0392b','#8e44ad'];
+dc('cDonut');
+CH['cDonut']=new Chart(document.getElementById('cDonut'),{type:'doughnut',
+data:{labels:dLabels,datasets:[{data:counts,backgroundColor:dColors,borderWidth:3,borderColor:'#fff'}]},
+options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:d=>' '+d.label+': '+d.raw}}}}});
+document.getElementById('donutLeg').innerHTML=dLabels.map((l,i)=>`
+<div style="display:flex;align-items:center;gap:5px;margin-bottom:7px">
+<div style="width:11px;height:11px;border-radius:2px;background:${dColors[i]};flex-shrink:0"></div>
+<span style="flex:1;font-size:.76rem">${l}</span>
+<strong style="font-size:.8rem">${counts[i]} <span style="color:#aab7b8">(${(counts[i]/tot*100).toFixed(0)}%)</span></strong>
+</div>`).join('');
+const jefes=[...new Set(d.map(r=>r.jefe))].sort();
+mkBar('cJefeQQ',jefes.map(j=>j.split(' ')[0]),[
+{label:'QQs totales',data:jefes.map(j=>parseFloat(d.filter(r=>r.jefe===j).reduce((a,r)=>a+r.qqs,0).toFixed(2))),backgroundColor:'#a8dadc',borderRadius:4},
+{label:'QQs pendientes',data:jefes.map(j=>parseFloat(d.filter(r=>r.jefe===j&&isPend(r)).reduce((a,r)=>a+r.qqs,0).toFixed(2))),backgroundColor:'#e74c3c',borderRadius:4}]);
+// TOP 6
+const t6Colors=['#c0392b','#e67e22','#f39c12','#2980b9','#27ae60','#8e44ad'];
+const t6Medals=['🥇','🥈','🥉','4°','5°','6°'];
+const t6=d.filter(r=>isPend(r)).sort((a,b)=>b._d-a._d).slice(0,6);
+const actC={'1ERA. MOJA':'#2980b9','2DA MOJA':'#27ae60','3ER. MOJA':'#8e44ad','SOLTAR':'#e67e22'};
+const maxT=t6[0]?._d||1;
+document.getElementById('top6').innerHTML=t6.length?t6.map((r,i)=>{
+const nb=nBadge(r._d);
+const ac=actC[r.actividad]||'#5d6d7e';
+return `<div style="display:flex;align-items:center;gap:.75rem;padding:.7rem 0;border-bottom:1px solid var(--borde)${i===0?';background:linear-gradient(90deg,#fdecea22,transparent);border-radius:6px;padding:.7rem .4rem':''}">
+<div style="min-width:32px;text-align:center;font-size:${i<3?'1.25rem':'.85rem'};font-family:'Space Grotesk',sans-serif;font-weight:700;color:${t6Colors[i]}">${t6Medals[i]}</div>
+<div style="flex:1;min-width:0">
+<div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;margin-bottom:.2rem">
+<span style="font-weight:700;font-size:.88rem">${r.pilon}</span>
+<span style="background:${ac}20;color:${ac};font-size:.67rem;font-weight:700;padding:.1rem .45rem;border-radius:10px">${r.actividad}</span>
+</div>
+<div style="display:flex;gap:.5rem;flex-wrap:wrap;font-size:.75rem;color:var(--txt2)">
+<span>👤 <strong style="color:var(--txt)">${r.jefe}</strong></span>
+<span>📍 ${r.zona}</span>
+<span>⚖️ ${r.qqs.toFixed(2)} QQs</span>
+</div>
+<div style="margin-top:.35rem;height:4px;background:#e8ecf0;border-radius:3px;overflow:hidden">
+<div style="width:${(r._d/maxT*100).toFixed(0)}%;height:100%;background:${t6Colors[i]};border-radius:3px"></div></div>
+</div>
+<div style="text-align:center;flex-shrink:0">
+<div class="dias ${nb.cls}" style="font-size:.8rem;padding:.28rem .65rem">${r._d}d</div>
+<div style="font-size:.65rem;color:var(--g2);margin-top:.2rem">${nb.lbl}</div>
+</div></div>`;
+}).join(''):'<div style="text-align:center;padding:1.5rem;color:var(--g2);font-size:.85rem">✅ Sin pendientes</div>';
+// ZONA HEAT
+const zonas=[...new Set(d.map(r=>r.zona))];
+const zd=zonas.map(z=>({z,qq:d.filter(r=>r.zona===z).reduce((a,r)=>a+r.qqs,0),p:d.filter(r=>r.zona===z).length,pend:d.filter(r=>r.zona===z&&isPend(r)).length})).sort((a,b)=>b.qq-a.qq);
+const maxQQ=Math.max(...zd.map(x=>x.qq));
+const zcols=['#1b5e37','#2d8a56','#40b070','#27ae60','#52be80','#82e0aa','#abebc6'];
+document.getElementById('zonaHeat').innerHTML=zd.map((z,i)=>`
+<div class="zbar">
+<div class="zbar-nm">${z.z}</div>
+<div class="zbar-tr"><div class="zbar-fl" style="width:${(z.qq/maxQQ*100).toFixed(0)}%;background:${zcols[i%zcols.length]}"></div></div>
+<div class="zbar-inf"><strong>${z.qq.toFixed(2)}</strong> QQs · ${z.p} pilones · <span style="color:var(--r)">${z.pend} pendientes</span></div>
+</div>`).join('');
+}
+// ── MOJAS ────────────────────────────────────────────────────
+function renderMoja(){
+const d=enrich().filter(r=>r.actividad!=='SOLTAR');
+const acts=['1ERA. MOJA','2DA MOJA','3ER. MOJA'];
+const tot=d.length,qq=d.reduce((a,r)=>a+r.qqs,0);
+const real=d.filter(r=>r._s==='REALIZADO'), pend=d.filter(r=>r._s==='NO REALIZADO');
+document.getElementById('kpiMoja').innerHTML=`
+<div class="kpi kaz"><div class="kpi-lbl">Total mojas</div><div class="kpi-val">${tot}</div><div class="kpi-sub">${qq.toFixed(2)} QQs</div></div>
+<div class="kpi kv"><div class="kpi-lbl">Realizadas</div><div class="kpi-val">${real.length}</div><div class="kpi-pct" style="color:var(--v)">${(real.length/tot*100).toFixed(1)}%</div></div>
+<div class="kpi kr2"><div class="kpi-lbl">No realizadas</div><div class="kpi-val">${pend.length}</div><div class="kpi-pct" style="color:var(--r2)">${(pend.length/tot*100).toFixed(1)}%</div></div>
+<div class="kpi ka"><div class="kpi-lbl">Mayor atraso</div><div class="kpi-val">${pend.length?Math.max(...pend.map(r=>r._d)):0}d</div><div class="kpi-sub">días acumulados</div></div>`;
+mkBar('cMojaBar',acts,[
+{label:'Realizados',data:acts.map(a=>d.filter(r=>r.actividad===a&&r._s==='REALIZADO').length),backgroundColor:'#27ae60',borderRadius:5},
+{label:'No realizados',data:acts.map(a=>d.filter(r=>r.actividad===a&&r._s==='NO REALIZADO').length),backgroundColor:'#e74c3c',borderRadius:5}]);
+const aCols=['#2980b9','#27ae60','#8e44ad'];
+document.getElementById('mojaProgreso').innerHTML=acts.map((a,i)=>{
+const xs=d.filter(r=>r.actividad===a), comp=xs.filter(r=>r._s==='REALIZADO').length;
+const pct=xs.length?(comp/xs.length*100).toFixed(0):0;
+const pendM=xs.filter(r=>r._s==='NO REALIZADO'), maxD=pendM.length?Math.max(...pendM.map(r=>r._d)):0;
+return `<div style="padding:.7rem 0;border-bottom:1px solid var(--borde)">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem">
+<div style="font-weight:600;font-size:.85rem">${a}</div>
+<div style="font-size:.75rem;color:var(--g)">${xs.length} pilones · ${xs.reduce((s,r)=>s+r.qqs,0).toFixed(2)} QQs</div>
+</div>
+<div style="display:flex;align-items:center;gap:.6rem">
+<div style="flex:1;height:10px;background:#e8ecf0;border-radius:5px;overflow:hidden">
+<div style="width:${pct}%;height:100%;background:${aCols[i]};border-radius:5px"></div></div>
+<span style="font-size:.78rem;font-weight:700;min-width:32px">${pct}%</span>
+${maxD>0?`<span class="dias ${nBadge(maxD).cls}" style="font-size:.68rem">max ${maxD}d</span>`:''}
+</div>
+<div style="font-size:.72rem;color:var(--g);margin-top:.3rem">${comp} realizados · ${xs.length-comp} pendientes</div></div>`;
+}).join('');
+document.getElementById('tblMojaSumm').innerHTML=acts.map(a=>{
+const xs=d.filter(r=>r.actividad===a), comp=xs.filter(r=>r._s==='REALIZADO').length;
+const pendM=xs.filter(r=>r._s==='NO REALIZADO'), pct=(comp/xs.length*100).toFixed(0);
+const maxD=pendM.length?Math.max(...pendM.map(r=>r._d)):0, nb=nBadge(maxD);
+return `<tr><td><strong>${a}</strong></td><td>${xs.length}</td><td class="num">${xs.reduce((s,r)=>s+r.qqs,0).toFixed(2)}</td>
+<td><span class="badge bv">✅ ${comp}</span></td><td><span class="badge br">⏳ ${xs.length-comp}</span></td>
+<td><div class="prog"><div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:#27ae60"></div></div><span class="prog-txt">${pct}%</span></div></td>
+<td>${maxD>0?`<span class="dias ${nb.cls}">${maxD} días</span>`:'-'}</td></tr>`;
+}).join('');
+document.getElementById('tblMojaPend').innerHTML=d.filter(r=>r._s==='NO REALIZADO').sort((a,b)=>b._d-a._d).map((r,i)=>{
+const nb=nBadge(r._d);
+return `<tr><td style="color:var(--g)">${i+1}</td><td><strong>${r.pilon}</strong></td><td>${r.jefe}</td><td>${r.zona}</td>
+<td><span class="badge baz">${r.actividad}</span></td><td class="num">${r.qqs.toFixed(2)}</td>
+<td>${fF(r.mes)}</td><td><span class="dias ${nb.cls}">${r._d} días</span></td></tr>`;
+}).join('');
+}
+// ── SOLTAR ───────────────────────────────────────────────────
+function renderSoltar(){
+const d=enrich().filter(r=>r.actividad==='SOLTAR');
+const tot=d.length;
+const pendS=d.filter(r=>r._s==='PENDIENTE SOLTAR');
+const spa=d.filter(r=>r._s==='SUELTO PEND. ACONDICIONAR');
+const comp=d.filter(r=>r._s==='SUELTO+ACONDICIONADO');
+document.getElementById('kpiSoltar').innerHTML=`
+<div class="kpi kr2"><div class="kpi-lbl">Pendientes de soltar</div><div class="kpi-val">${pendS.length}</div>
+<div class="kpi-pct" style="color:var(--r2)">SUELTO = NO</div>
+<div class="kpi-sub">${pendS.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs · acumulando</div></div>
+<div class="kpi ka"><div class="kpi-lbl">Sueltos pend.acond.</div><div class="kpi-val">${spa.length}</div>
+<div class="kpi-pct" style="color:var(--a)">ACONDICIONADO = NO</div>
+<div class="kpi-sub">${spa.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs</div></div>
+<div class="kpi kv"><div class="kpi-lbl">Completos</div><div class="kpi-val">${comp.length}</div>
+<div class="kpi-pct" style="color:var(--v)">Suelto + Acondicionado</div>
+<div class="kpi-sub">${comp.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs</div></div>`;
+dc('cSoltarDonut');
+CH['cSoltarDonut']=new Chart(document.getElementById('cSoltarDonut'),{type:'doughnut',
+data:{labels:['Pend. soltar','Suelto pend.acond.','Suelto+Acondicionado'],
+datasets:[{data:[pendS.length,spa.length,comp.length],backgroundColor:['#c0392b','#f39c12','#27ae60'],borderWidth:4,borderColor:'#fff'}]},
+options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{labels:{color:'#5d6d7e',font:{size:11}}}}}});
+const masAt=pendS.length?[...pendS].sort((a,b)=>b._d-a._d)[0]:null;
+document.getElementById('soltarResumen').innerHTML=`
+<div class="sc sc-no">
+<div class="sc-ttl">🔴 Pendientes de soltar — ${pendS.length} pilones</div>
+<div class="sc-det">SUELTO = NO. Días acumulan automáticamente. ${pendS.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs sin iniciar.${masAt?' Más atrasado: <strong>'+masAt.pilon+'</strong> ('+masAt._d+' días)':''}</div>
+</div>
+${spa.length?`<div class="sc sc-pa">
+<div class="sc-ttl">⚠️ Sueltos pendientes de acondicionar — ${spa.length} pilones</div>
+<div class="sc-det">SUELTO = Fecha · ACONDICIONADO = NO. ${spa.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs requieren acondicionamiento.</div>
+</div>`:''}
+<div class="sc sc-ok">
+<div class="sc-ttl">✅ Sueltos y acondicionados — ${comp.length} pilones</div>
+<div class="sc-det">SUELTO = Fecha · ACONDICIONADO = Fecha. Actividad completa. ${comp.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs finalizados.</div>
+</div>`;
+document.getElementById('tblSoltarPend').innerHTML=pendS.sort((a,b)=>b._d-a._d).map((r,i)=>{
+const nb=nBadge(r._d);
+return `<tr><td style="color:var(--g)">${i+1}</td><td><strong>${r.pilon}</strong></td><td>${r.jefe}</td><td>${r.zona}</td>
+<td class="num">${r.qqs.toFixed(2)}</td><td>${fF(r.mes)}</td><td><span class="dias ${nb.cls}">${r._d} días</span></td></tr>`;
+}).join('');
+document.getElementById('cardSPA').style.display=spa.length?'':'none';
+document.getElementById('tblSPA').innerHTML=spa.sort((a,b)=>b._d-a._d).map((r,i)=>{
+const nb=nBadge(r._d);
+return `<tr><td style="color:var(--g)">${i+1}</td><td><strong>${r.pilon}</strong></td><td>${r.jefe}</td><td>${r.zona}</td>
+<td class="num">${r.qqs.toFixed(2)}</td><td>${fF(r.suelto)}</td>
+<td><span class="dias ${nb.cls}">${r._d} días</span></td><td><span class="badge ba">⚠️ NO</span></td></tr>`;
+}).join('');
+document.getElementById('tblSoltarOk').innerHTML=comp.sort((a,b)=>b._d-a._d).map((r,i)=>`
+<tr><td style="color:var(--g)">${i+1}</td><td><strong>${r.pilon}</strong></td><td>${r.jefe}</td><td>${r.zona}</td>
+<td class="num">${r.qqs.toFixed(2)}</td><td>${fF(r.suelto)}</td><td>${fF(r.acondicionado)}</td>
+<td><span class="dias d0">${r._d} días</span></td></tr>`).join('');
+}
+// ── ATRASOS ──────────────────────────────────────────────────
+function renderAtrasos(){
+const d=enrich().filter(r=>isPend(r));
+const qq=d.reduce((a,r)=>a+r.qqs,0);
+const prom=d.length?(d.reduce((a,r)=>a+r._d,0)/d.length).toFixed(0):0;
+const maxD=d.length?Math.max(...d.map(r=>r._d)):0;
+document.getElementById('kpiAtrasos').innerHTML=`
+<div class="kpi kr2"><div class="kpi-lbl">Pilones pendientes</div><div class="kpi-val">${d.length}</div></div>
+<div class="kpi kr2"><div class="kpi-lbl">QQs en riesgo</div><div class="kpi-val">${qq.toFixed(2)}</div></div>
+<div class="kpi ka"><div class="kpi-lbl">Días promedio</div><div class="kpi-val">${prom}</div></div>
+<div class="kpi kr2"><div class="kpi-lbl">Atraso máximo</div><div class="kpi-val">${maxD}d</div></div>`;
+const rKeys=['1-15d','16-30d','31-60d','61-90d','91-200d','200+d'];
+const rangos=Object.fromEntries(rKeys.map(k=>[k,0]));
+d.forEach(r=>{
+if(r._d<=15)rangos['1-15d']++;else if(r._d<=30)rangos['16-30d']++;
+else if(r._d<=60)rangos['31-60d']++;else if(r._d<=90)rangos['61-90d']++;
+else if(r._d<=200)rangos['91-200d']++;else rangos['200+d']++;
+});
+mkBar('cRangos',rKeys,[{data:rKeys.map(k=>rangos[k]),backgroundColor:['#82e0aa','#f9e79f','#f0b27a','#f1948a','#c0392b','#7b241c'],borderRadius:6,label:'Pilones'}],{plugins:{legend:{display:false}}});
+const jefes=[...new Set(d.map(r=>r.jefe))];
+const pJ=jefes.map(j=>{const xs=d.filter(r=>r.jefe===j);return Math.round(xs.reduce((a,r)=>a+r._d,0)/xs.length);});
+mkBar('cDiasJefe',jefes.map(j=>j.split(' ')[0]),[{data:pJ,backgroundColor:'#e74c3c',borderRadius:6,label:'Días prom.'}],{plugins:{legend:{display:false}}});
+document.getElementById('tblAtrasos').innerHTML=d.sort((a,b)=>b._d-a._d).map((r,i)=>{
+const nb=nBadge(r._d);
+return `<tr><td style="color:var(--g)">${i+1}</td><td><strong>${r.pilon}</strong></td><td>${r.jefe}</td><td>${r.zona}</td>
+<td><span class="badge baz">${r.actividad}</span></td><td class="num">${r.qqs.toFixed(2)}</td>
+<td>${fF(r.mes)}</td><td><span class="dias ${nb.cls}">${r._d} días</span></td>
+<td><span class="badge ${nb.cls==='dc'?'br':nb.cls==='da'?'ba':nb.cls==='dm'?'ba':'bv'}">${nb.lbl}</span></td></tr>`;
+}).join('');
+}
+// ── JEFES ────────────────────────────────────────────────────
+function renderJefes(){
+const d=enrich(), jefes=[...new Set(d.map(r=>r.jefe))].sort();
+const cols=['#1a4f7a','#1b5e37','#6c3483','#b7450a','#d68910','#c0392b'];
+const actC={'1ERA. MOJA':'#2980b9','2DA MOJA':'#27ae60','3ER. MOJA':'#8e44ad','SOLTAR':'#e67e22'};
+document.getElementById('jefeCards').innerHTML=jefes.map((j,idx)=>{
+const xs=d.filter(r=>r.jefe===j);
+const pend=xs.filter(r=>isPend(r)), comp=xs.filter(r=>r._s==='REALIZADO'||r._s==='SUELTO+ACONDICIONADO');
+const spa=xs.filter(r=>r._s==='SUELTO PEND. ACONDICIONAR');
+const qq=xs.reduce((a,r)=>a+r.qqs,0);
+const promD=pend.length?(pend.reduce((a,r)=>a+r._d,0)/pend.length).toFixed(0):0;
+const maxPD=pend.length?Math.max(...pend.map(r=>r._d)):0;
+const actB={};
+xs.forEach(r=>{if(!actB[r.actividad])actB[r.actividad]={tot:0,pend:0,spa:0};actB[r.actividad].tot++;
+if(isPend(r))actB[r.actividad].pend++;if(r._s==='SUELTO PEND. ACONDICIONAR')actB[r.actividad].spa++;});
+const zonas={};
+xs.forEach(r=>{if(!zonas[r.zona])zonas[r.zona]={tot:0,pend:0};zonas[r.zona].tot++;if(isPend(r))zonas[r.zona].pend++;});
+return `<div class="jcard" style="border-top:4px solid ${cols[idx]}">
+<div class="jchdr" style="background:linear-gradient(90deg,${cols[idx]}18,transparent)">
+<div><div style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:${cols[idx]}">👤 ${j}</div>
+<div style="font-size:.75rem;color:var(--g)">${xs.length} pilones · ${qq.toFixed(2)} QQs</div></div>
+<span class="badge ${pend.length?'br':'bv'}" style="font-size:.82rem;padding:.35rem .8rem">${pend.length} pendientes</span>
+</div>
+<div class="jcbody">
+<div class="mstats">
+<div class="mstat"><div class="v" style="color:var(--v)">${comp.length}</div><div class="l">Completados</div></div>
+<div class="mstat"><div class="v" style="color:var(--r2)">${pend.length}</div><div class="l">Pendientes</div></div>
+<div class="mstat"><div class="v" style="color:var(--a)">${spa.length}</div><div class="l">Suelto pend.acond.</div></div>
+<div class="mstat"><div class="v" style="color:var(--a)">${promD}</div><div class="l">Días prom.</div></div>
+</div>
+<div class="g2">
+<div><div style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--g);margin-bottom:.5rem">Por actividad</div>
+${Object.entries(actB).map(([a,v])=>`
+<div style="display:flex;align-items:center;gap:.5rem;padding:.45rem 0;border-bottom:1px solid var(--borde)">
+<div style="width:9px;height:9px;border-radius:50%;background:${v.pend===0&&v.spa===0?'#27ae60':v.spa>0?'#f39c12':'#c0392b'};flex-shrink:0"></div>
+<div style="flex:1;font-size:.82rem;font-weight:500">${a}</div>
+<span class="badge ${v.pend===0&&v.spa===0?'bv':v.spa>0?'ba':'br'}">${v.tot-v.pend-v.spa}/${v.tot}</span>
+</div>`).join('')}
+</div>
+<div><div style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--g);margin-bottom:.5rem">Por zona</div>
+<table style="font-size:.78rem;width:100%;border-collapse:collapse">
+<thead><tr><th style="text-align:left;padding:3px 5px;color:var(--g);font-size:.68rem">Zona</th><th style="text-align:right;padding:3px 5px;color:var(--g);font-size:.68rem">Total</th><th style="text-align:right;padding:3px 5px;color:var(--g);font-size:.68rem">Pend.</th></tr></thead>
+<tbody>${Object.entries(zonas).sort((a,b)=>b[1].tot-a[1].tot).map(([z,v])=>
+`<tr><td style="padding:3px 5px">${z}</td><td style="text-align:right;padding:3px 5px">${v.tot}</td><td style="text-align:right;padding:3px 5px;color:var(--r)">${v.pend}</td></tr>`
+).join('')}</tbody>
+</table>
+</div>
+</div>
+</div></div>`;
+}).join('');
+}
+// ── ZONAS ────────────────────────────────────────────────────
+function renderZonas(){
+const d=enrich(), zonas=[...new Set(d.map(r=>r.zona))];
+const zd=zonas.map(z=>{
+const xs=d.filter(r=>r.zona===z), pend=xs.filter(r=>isPend(r)), comp=xs.filter(r=>r._s==='REALIZADO'||r._s==='SUELTO+ACONDICIONADO');
+const dias=pend.map(r=>r._d);
+return{z,tot:xs.length,qq:xs.reduce((a,r)=>a+r.qqs,0),pend:pend.length,qqP:pend.reduce((a,r)=>a+r.qqs,0),comp:comp.length,prom:dias.length?(dias.reduce((a,b)=>a+b,0)/dias.length).toFixed(0):0};
+}).sort((a,b)=>b.qq-a.qq);
+document.getElementById('tblZonas').innerHTML=zd.map(z=>{
+const pct=z.tot?(z.comp/z.tot*100).toFixed(0):0, nb=nBadge(+z.prom);
+return `<tr><td><strong>${z.z}</strong></td><td class="num">${z.tot}</td><td class="num">${z.qq.toFixed(2)}</td>
+<td class="num" style="color:var(--r);font-weight:600">${z.pend}</td><td class="num">${z.qqP.toFixed(2)}</td>
+<td class="num" style="color:var(--v)">${z.comp}</td>
+<td><div class="prog"><div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:${+pct>70?'#2d8a56':+pct>30?'#d68910':'#e74c3c'}"></div></div><span class="prog-txt">${pct}%</span></div></td>
+<td>${z.prom>0?`<span class="dias ${nb.cls}">${z.prom}d</span>`:'-'}</td></tr>`;
+}).join('');
+mkBar('cZonas',zd.map(z=>z.z),[
+{label:'QQs totales',data:zd.map(z=>parseFloat(z.qq.toFixed(2))),backgroundColor:'#a8dadc',borderRadius:4},
+{label:'QQs pendientes',data:zd.map(z=>parseFloat(z.qqP.toFixed(2))),backgroundColor:'#c0392b',borderRadius:4}]);
+}
+// ── DETALLE ──────────────────────────────────────────────────
+let filtrados=[], pagAct=1, porPag=25;
+function poblarFiltros(){
+const jefes=[...new Set(DATA.map(r=>r.jefe))].sort();
+const zonas=[...new Set(DATA.map(r=>r.zona))].sort();
+const acts=[...new Set(DATA.map(r=>r.actividad))].sort();
+const sJ=document.getElementById('fJefe'),sZ=document.getElementById('fZona'),sA=document.getElementById('fAct');
+if(sJ.options.length<=1){jefes.forEach(j=>{const o=document.createElement('option');o.value=o.text=j;sJ.appendChild(o);});}
+if(sZ.options.length<=1){zonas.forEach(z=>{const o=document.createElement('option');o.value=o.text=z;sZ.appendChild(o);});}
+if(sA.options.length<=1){acts.forEach(a=>{const o=document.createElement('option');o.value=o.text=a;sA.appendChild(o);});}
+}
+function filtrar(){
+const j=document.getElementById('fJefe').value, z=document.getElementById('fZona').value;
+const a=document.getElementById('fAct').value, s=document.getElementById('fSt').value;
+const b=document.getElementById('fBusc').value.toLowerCase();
+filtrados=enrich().filter(r=>{
+if(j&&r.jefe!==j)return false; if(z&&r.zona!==z)return false;
+if(a&&r.actividad!==a)return false; if(s&&r._s!==s)return false;
+if(b&&!r.pilon.toLowerCase().includes(b)&&!r.zona.toLowerCase().includes(b))return false;
+return true;
+});
+pagAct=1; renderDetalle();
+}
+function resetF(){
+['fJefe','fZona','fAct','fSt'].forEach(id=>document.getElementById(id).value='');
+document.getElementById('fBusc').value=''; filtrar();
+}
+function renderDetalle(){
+const ini=(pagAct-1)*porPag, pag=filtrados.slice(ini,ini+porPag);
+document.getElementById('fcnt').textContent=`${filtrados.length} pilones`;
+const sBadge=s=>{
+const m={'REALIZADO':'bv','SUELTO+ACONDICIONADO':'bv','NO REALIZADO':'br','PENDIENTE SOLTAR':'br','SUELTO PEND. ACONDICIONAR':'ba'};
+const ico={'REALIZADO':'✅','SUELTO+ACONDICIONADO':'✅','NO REALIZADO':'❌','PENDIENTE SOLTAR':'🔴','SUELTO PEND. ACONDICIONAR':'⚠️'};
+return `<span class="badge ${m[s]||'bg'}" style="font-size:.67rem">${ico[s]||''} ${s}</span>`;
+};
+document.getElementById('tblDet').innerHTML=pag.map((r,i)=>{
+const nb=nBadge(r._d);
+const rDisp=isD(r.realizado)?`<span class="badge bv" style="font-size:.68rem">📅 ${r.realizado}</span>`:`<span class="badge ${r.realizado==='NO'?'br':'bg'}" style="font-size:.68rem">${r.realizado||'—'}</span>`;
+const sDisp=isD(r.suelto)?`<span class="badge bv" style="font-size:.68rem">📅 ${r.suelto}</span>`:r.suelto==='NO'?`<span class="badge br" style="font-size:.68rem">NO</span>`:'<span style="font-size:.68rem;color:var(--g)">—</span>';
+const aDisp=isD(r.acondicionado)?`<span class="badge bv" style="font-size:.68rem">📅 ${r.acondicionado}</span>`:r.acondicionado==='NO'?`<span class="badge ba" style="font-size:.68rem">⚠️ NO</span>`:'<span style="font-size:.68rem;color:var(--g)">—</span>';
+return `<tr><td style="color:var(--g)">${ini+i+1}</td><td>${fF(r.mes)}</td><td><strong>${r.pilon}</strong></td>
+<td>${r.jefe}</td><td>${r.zona}</td><td class="num">${r.qqs.toFixed(2)}</td>
+<td><span class="badge baz">${r.actividad}</span></td>
+<td>${rDisp}</td><td>${sDisp}</td><td>${aDisp}</td>
+<td><span class="dias ${nb.cls}">${r._d}d</span></td>
+<td>${sBadge(r._s)}</td></tr>`;
+}).join('');
+const pags=Math.ceil(filtrados.length/porPag), pe=document.getElementById('pag');
+pe.innerHTML='';
+for(let i=1;i<=pags;i++){const b=document.createElement('button');b.className='pag-btn'+(i===pagAct?' active':'');b.textContent=i;b.onclick=()=>{pagAct=i;renderDetalle();};pe.appendChild(b);}
+}
+// ── INGRESO ──────────────────────────────────────────────────
+function togN(){
+const a=document.getElementById('nAct').value;
+document.getElementById('camMoja').style.display=a==='SOLTAR'?'none':'block';
+document.getElementById('camSoltar').style.display=a==='SOLTAR'?'block':'none';
+}
+function agregar(){
+const mes=document.getElementById('nMes').value, pilon=document.getElementById('nPilon').value.trim();
+const jefe=document.getElementById('nJefe').value, zona=document.getElementById('nZona').value;
+const qqs=parseFloat(document.getElementById('nQqs').value), act=document.getElementById('nAct').value;
+if(!mes||!pilon||!jefe||!zona||isNaN(qqs)||!act){alert('Completa todos los campos obligatorios (*).');return;}
+const isSoltar=act==='SOLTAR';
+const newRecord={mes,pilon,jefe,zona,qqs,actividad:act,
+realizado:isSoltar?'':(document.getElementById('nReal').value||'NO'),
+suelto:isSoltar?(document.getElementById('nSuelto').value||'NO'):'',
+acondicionado:isSoltar?(document.getElementById('nAcond').value||''):''};
+DATA.push(newRecord);
+syncToSheets('add', newRecord);
+const al=document.getElementById('alertOk');
+al.classList.add('show'); setTimeout(()=>al.classList.remove('show'),4000);
+showToast('✅ Pilón registrado y sincronizado con Google Sheets','ok');
+limpF(); renderAll();
+}
+function limpF(){
+['nMes','nPilon','nQqs','nReal','nSuelto'].forEach(id=>document.getElementById(id).value='');
+['nJefe','nZona','nAct','nAcond'].forEach(id=>document.getElementById(id).value='');
+togN();
+}
+// ── BUSCAR / EDITAR / ELIMINAR ───────────────────────────────
+function buscarEditar(){
+const q=document.getElementById('eBusc').value.trim().toLowerCase();
+const res=document.getElementById('eRes');
+if(!q){res.innerHTML='';return;}
+const found=enrich().filter(r=>r.pilon.toLowerCase().includes(q)).slice(0,8);
+if(!found.length){res.innerHTML='<p style="color:var(--g);font-size:.83rem;padding:.5rem 0">No se encontraron pilones.</p>';return;}
+res.innerHTML=found.map(r=>{
+const idx=DATA.findIndex(d=>d.pilon===r.pilon&&d.mes===r.mes&&d.jefe===r.jefe);
+const isSoltar=r.actividad==='SOLTAR';
+return `<div style="background:var(--g3);border-radius:10px;padding:.9rem;margin-bottom:.65rem;border:1.5px solid var(--borde)">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.6rem">
+<div>
+<div style="font-weight:700;font-size:.9rem;margin-bottom:.18rem">${r.pilon}
+<span style="font-weight:400;font-size:.78rem;color:var(--g)"> · ${r.actividad} · ${r.zona}</span></div>
+<div style="font-size:.78rem;color:var(--txt2)">👤 <strong>${r.jefe}</strong> &nbsp;⚖️ ${r.qqs.toFixed(2)} QQs &nbsp;📅 ${fF(r.mes)}</div>
+</div>
+<span class="badge ${isPend(r)?'br':r._s==='SUELTO PEND. ACONDICIONAR'?'ba':'bv'}" style="font-size:.72rem">${r._s}</span>
+</div>
+<div style="display:flex;gap:.45rem;flex-wrap:wrap">
+<button class="btn-edit" onclick="abrirEditar(${idx})">✏️ Editar datos</button>
+<button class="btn-del" onclick="abrirDel(${idx})">🗑️ Eliminar</button>
+${!isSoltar&&r._s==='NO REALIZADO'?`<button class="bp" style="padding:.38rem .8rem;font-size:.75rem" onclick="marcarRealHoy(${idx})">✅ Realizado hoy</button>`:''}
+${isSoltar&&r._s==='PENDIENTE SOLTAR'?`<button class="bp" style="padding:.38rem .8rem;font-size:.75rem" onclick="marcarSueltoHoy(${idx})">📦 Suelto hoy</button>`:''}
+${isSoltar&&r._s==='SUELTO PEND. ACONDICIONAR'?`<button class="bp" style="padding:.38rem .8rem;font-size:.75rem;background:var(--v2)" onclick="marcarAcondHoy(${idx})">✅ Acondicionado hoy</button>`:''}
+</div>
+</div>`;
+}).join('');
+}
+function marcarRealHoy(idx){
+const k={pilon:DATA[idx].pilon,mes:DATA[idx].mes,jefe:DATA[idx].jefe};
+DATA[idx].realizado=HOY_STR;
+syncToSheets('update',DATA[idx],k);
+showToast('✅ Realizado registrado en Google Sheets','ok');
+buscarEditar();renderAll();
+}
+function marcarSueltoHoy(idx){
+const k={pilon:DATA[idx].pilon,mes:DATA[idx].mes,jefe:DATA[idx].jefe};
+DATA[idx].suelto=HOY_STR; DATA[idx].acondicionado='NO';
+syncToSheets('update',DATA[idx],k);
+showToast('📦 Suelto registrado en Google Sheets','ok');
+buscarEditar();renderAll();
+}
+function marcarAcondHoy(idx){
+const k={pilon:DATA[idx].pilon,mes:DATA[idx].mes,jefe:DATA[idx].jefe};
+DATA[idx].acondicionado=HOY_STR;
+syncToSheets('update',DATA[idx],k);
+showToast('✅ Acondicionado registrado en Google Sheets','ok');
+buscarEditar();renderAll();
+}
+// MODAL EDITAR
+let _eIdx=-1;
+function abrirEditar(idx){
+_eIdx=idx; const r=DATA[idx];
+document.getElementById('ePilon').value=r.pilon;
+document.getElementById('eMes').value=r.mes;
+document.getElementById('eJefe').value=r.jefe;
+document.getElementById('eZona').value=r.zona;
+document.getElementById('eQqs').value=r.qqs;
+document.getElementById('eAct').value=r.actividad;
+if(r.actividad==='SOLTAR'){
+document.getElementById('eSuelto').value=r.suelto||'NO';
+document.getElementById('eAcond').value=r.acondicionado||'';
+document.getElementById('eCamMoja').style.display='none';
+document.getElementById('eCamSoltar').style.display='block';
+} else {
+document.getElementById('eReal').value=r.realizado||'NO';
+document.getElementById('eCamMoja').style.display='block';
+document.getElementById('eCamSoltar').style.display='none';
+}
+document.getElementById('mEditId').textContent=r.pilon;
+document.getElementById('mEditOk').style.display='none';
+document.getElementById('modalEdit').classList.add('open');
+}
+function togE(){
+const a=document.getElementById('eAct').value;
+document.getElementById('eCamMoja').style.display=a==='SOLTAR'?'none':'block';
+document.getElementById('eCamSoltar').style.display=a==='SOLTAR'?'block':'none';
+}
+function guardar(){
+if(_eIdx<0)return;
+const act=document.getElementById('eAct').value, isSoltar=act==='SOLTAR';
+const oldKey={pilon:DATA[_eIdx].pilon, mes:DATA[_eIdx].mes, jefe:DATA[_eIdx].jefe};
+DATA[_eIdx]={
+mes:document.getElementById('eMes').value,
+pilon:document.getElementById('ePilon').value.trim(),
+jefe:document.getElementById('eJefe').value,
+zona:document.getElementById('eZona').value,
+qqs:parseFloat(document.getElementById('eQqs').value)||0,
+actividad:act,
+realizado:isSoltar?'':(document.getElementById('eReal').value||'NO'),
+suelto:isSoltar?(document.getElementById('eSuelto').value||'NO'):'',
+acondicionado:isSoltar?(document.getElementById('eAcond').value||''):''
+};
+const al=document.getElementById('mEditOk');
+al.textContent='✅ Cambios guardados correctamente.'; al.style.display='block';
+syncToSheets('update', DATA[_eIdx], {pilon:oldKey.pilon, mes:oldKey.mes, jefe:oldKey.jefe});
+showToast('💾 Cambios sincronizados con Google Sheets','ok');
+setTimeout(()=>{closeModal();renderAll();buscarEditar();},1300);
+}
+function closeModal(){document.getElementById('modalEdit').classList.remove('open');_eIdx=-1;}
+// MODAL ELIMINAR
+let _dIdx=-1;
+function abrirDel(idx){
+_dIdx=idx; const r=DATA[idx];
+document.getElementById('mDelMsg').innerHTML=`¿Eliminar el pilón <strong>${r.pilon}</strong>?<br><span style="font-size:.8rem;color:var(--g)">${r.jefe} · ${r.actividad} · ${r.zona} · ${r.qqs.toFixed(2)} QQs</span>`;
+document.getElementById('modalDel').classList.add('open');
+}
+function confirmDel(){
+if(_dIdx<0)return;
+const delKey={pilon:DATA[_dIdx].pilon, mes:DATA[_dIdx].mes, jefe:DATA[_dIdx].jefe};
+syncToSheets('delete', {}, delKey);
+DATA.splice(_dIdx,1); closeDelModal(); renderAll(); buscarEditar();
+showToast('🗑️ Pilón eliminado y sincronizado con Google Sheets','ok');
+const res=document.getElementById('eRes');
+const msg=document.createElement('div');
+msg.style.cssText='background:#d1fae5;color:#065f46;padding:.7rem 1rem;border-radius:8px;font-size:.83rem;font-weight:600;margin-bottom:.6rem';
+msg.textContent='🗑️ Pilón eliminado correctamente.';
+res.prepend(msg); setTimeout(()=>msg.remove(),3000);
+}
+function closeDelModal(){document.getElementById('modalDel').classList.remove('open');_dIdx=-1;}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeDelModal();}});
+// Mejor respuesta táctil en móvil
+document.addEventListener('touchstart',()=>{},{passive:true});
+// Swipe entre pestañas en móvil
+let touchStartX=0, touchStartY=0;
+document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{
+const dx=e.changedTouches[0].clientX-touchStartX;
+const dy=Math.abs(e.changedTouches[0].clientY-touchStartY);
+if(Math.abs(dx)>60&&dy<40){ // Swipe horizontal
+const tabBtns=[...document.querySelectorAll('.tab')];
+const activeIdx=tabBtns.findIndex(b=>b.classList.contains('active'));
+if(dx<0&&activeIdx<tabBtns.length-1) tabBtns[activeIdx+1].click();
+else if(dx>0&&activeIdx>0) tabBtns[activeIdx-1].click();
+}
+},{passive:true});
+// ── CSV ──────────────────────────────────────────────────────
+function exportCSV(){
+const d=enrich();
+const cols=['pilon','mes','jefe','zona','qqs','actividad','realizado','suelto','acondicionado','_d','_s'];
+const rows=[cols.join(','),...d.map(r=>cols.map(c=>`"${r[c]??''}""`).join(','))];
+const a=document.createElement('a');
+a.href=URL.createObjectURL(new Blob([rows.join('\n')],{type:'text/csv;charset=utf-8;'}));
+a.download=`fermentacion_${HOY_STR}.csv`; a.click();
+}
+function importCSV(e){
+const file=e.target.files[0]; if(!file)return;
+const reader=new FileReader();
+reader.onload=ev=>{
+const lines=ev.target.result.split('\n').filter(l=>l.trim());
+const hdr=lines[0].toLowerCase().split(/[,;]/).map(h=>h.replace(/"/g,'').trim());
+const get=(row,n)=>{const i=hdr.indexOf(n);return i>=0?(row[i]||'').replace(/"/g,'').trim():''};
+let added=0;
+lines.slice(1).forEach(line=>{
+const cols=line.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/);
+const pilon=get(cols,'pilon'), jefe=get(cols,'jefe');
+if(pilon&&jefe){DATA.push({mes:get(cols,'mes'),jefe,zona:get(cols,'zona'),pilon,
+qqs:parseFloat(get(cols,'qqs'))||0,actividad:get(cols,'actividad'),
+realizado:get(cols,'realizado'),suelto:get(cols,'suelto'),acondicionado:get(cols,'acondicionado')});added++;}
+});
+alert(`${added} pilones importados.`); renderAll();
+};
+reader.readAsText(file);
+}
+// ── TABS & RENDER ────────────────────────────────────────────
+const renders={moja:renderMoja,soltar:renderSoltar,atrasos:renderAtrasos,jefes:renderJefes,zonas:renderZonas};
+function showTab(tab,btn){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+document.getElementById('page-'+tab).classList.add('active');
+if(btn)btn.classList.add('active');
+if(renders[tab])renders[tab]();
+if(tab==='detalle'){poblarFiltros();filtrar();}
+}
+function renderAll(){
+renderDash();
+const at=document.querySelector('.tab.active');
+if(at){const t=at.getAttribute('onclick').match(/'(\w+)'/)[1];if(t!=='dash')showTab(t,at);}
+poblarFiltros(); filtrados=enrich(); renderDetalle();
+}
+document.getElementById('hdrFecha').textContent='📅 '+HOY.toLocaleDateString('es-NI',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+poblarFiltros(); filtrados=enrich(); renderAll();
+// ── IMPRESIÓN COMPLETA CON COLORES ───────────────────────────
+function imprimirDashboard(){
+// 1. Renderizar todas las pestañas para que los charts existan
+const renders={moja:renderMoja,soltar:renderSoltar,atrasos:renderAtrasos,jefes:renderJefes,zonas:renderZonas};
+Object.values(renders).forEach(fn=>fn());
+// 2. Mostrar todas las páginas temporalmente
+document.querySelectorAll('.page').forEach(p=>{
+p.style.display='block';
+p.style.pageBreakAfter='always';
+});
+// 3. Esperar render de charts, convertir canvas a imagen PNG y luego imprimir
+setTimeout(()=>{
+document.querySelectorAll('canvas').forEach(canvas=>{
+try{
+const img=document.createElement('img');
+img.src=canvas.toDataURL('image/png',1.0);
+img.style.cssText='width:100%;max-width:100%;height:auto;display:block';
+img.className='canvas-print-img';
+canvas.parentNode.insertBefore(img,canvas.nextSibling);
+canvas.style.display='none';
+}catch(e){}
+});
+setTimeout(()=>{
+window.print();
+// Restaurar estado normal tras imprimir
+setTimeout(()=>{
+document.querySelectorAll('.canvas-print-img').forEach(img=>img.remove());
+document.querySelectorAll('canvas').forEach(c=>c.style.display='');
+document.querySelectorAll('.page').forEach(p=>{p.style.display='';p.style.pageBreakAfter='';});
+const at=document.querySelector('.tab.active');
+if(at){
+const t=at.getAttribute('onclick').match(/'(\w+)'/)[1];
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById('page-'+t).classList.add('active');
+}
+},1000);
+},500);
+},900);
+}
+// Iniciar con spinner activo, ocultar tras render
+setTimeout(ocultarSpinner, 2000); // fallback: ocultar tras 2s máximo
+// Conectar a Google Sheets automáticamente al abrir
+loadFromSheets();
+</script>
+</body>
+</html>
