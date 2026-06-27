@@ -10,6 +10,9 @@
 <meta name="theme-color" content="#1b5e37">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231b5e37'/><text y='.9em' font-size='80' x='10'>🍃</text></svg>">
 <title>Dashboard Fermentación de Tabaco</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 /* Fuentes del sistema — sin carga de red */
@@ -83,7 +86,7 @@ body,input,select,button{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI'
 .jqrow:hover img,.jqrow:hover div[style*="border-radius:50%"]{transform:scale(1.08);animation:none}
 
 /* ── Barras animadas ── */
-.jbartot,.jbarpend,.prog-fill,.zbar-fl,.zbar-fill{
+.leafbar-fill,.zbar-fl,.zbar-fill{
   animation:barGrow .9s cubic-bezier(.4,0,.2,1) both;
   animation-delay:.3s;
 }
@@ -164,7 +167,13 @@ tbody tr:hover td{background:rgba(45,106,79,.06)!important}
 @media print{*{animation:none!important;transition:none!important}}
 
 </style>
-<style>:root{--v:#1b5e37;--v2:#2d8a56;--v3:#d4edda;--r:#c0392b;--r2:#e74c3c;--r3:#fdecea;--a:#d68910;--a2:#f39c12;--a3:#fef9e7;--az:#1a4f7a;--az2:#2980b9;--az3:#eaf4fb;--n:#b7450a;--n2:#e67e22;--n3:#fdf2e9;--mo:#6c3483;--mo2:#9b59b6;--mo3:#f5eef8;--g:#5d6d7e;--g2:#aab7b8;--g3:#f4f6f7;--borde:#e8ecf0;--sh:0 2px 12px rgba(0,0,0,.08);--rad:10px;--txt:#1c2833;--txt2:#5d6d7e}*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',sans-serif;background:#eef1f5;color:var(--txt);font-size:14px}.hdr{background:linear-gradient(135deg,#0d2e1a 0%,#1b5e37 55%,#27ae60 100%);color:#fff}.hdr-top{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.8rem;border-bottom:1px solid rgba(255,255,255,.12)}.hdr-brand{display:flex;align-items:center;gap:.9rem}.hdr-logo{width:44px;height:44px;background:rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem}.hdr-ttl{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:700;letter-spacing:-.01em}.hdr-sub{font-size:.75rem;opacity:.7;margin-top:2px}.hdr-right{display:flex;gap:.7rem;align-items:center}.hdr-date{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:.4rem .9rem;font-size:.78rem;font-weight:500}.bh{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:8px;padding:.42rem .95rem;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s}.bh:hover{background:rgba(255,255,255,.25)}.tabs{background:#fff;border-bottom:2px solid var(--borde);padding:0 1.8rem;display:flex;overflow-x:auto}.tab{padding:.85rem 1.2rem;font-size:.83rem;font-weight:500;color:var(--g);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .18s;margin-bottom:-2px}.tab.active{color:var(--v);border-bottom-color:var(--v);font-weight:700}.tab:hover:not(.active){color:var(--v2)}.page{display:none;padding:1.4rem 1.8rem;max-width:1440px;margin:0 auto}.page.active{display:block}.kr{display:grid;gap:.9rem;margin-bottom:1.2rem}.k5{grid-template-columns:repeat(5,1fr)}.k4{grid-template-columns:repeat(4,1fr)}.k3{grid-template-columns:repeat(3,1fr)}.kpi{background:#fff;border-radius:var(--rad);padding:1rem 1.2rem;box-shadow:var(--sh);border-left:4px solid var(--borde);position:relative;overflow:hidden}.kpi::before{content:'';position:absolute;right:-12px;top:-12px;width:60px;height:60px;border-radius:50%;opacity:.06}.kpi.kaz{border-left-color:var(--az2)}.kpi.kaz::before{background:var(--az2)}.kpi.kr2{border-left-color:var(--r2)}.kpi.kr2::before{background:var(--r2)}.kpi.kv{border-left-color:var(--v2)}.kpi.kv::before{background:var(--v2)}.kpi.ka{border-left-color:var(--a2)}.kpi.ka::before{background:var(--a2)}.kpi.kmo{border-left-color:var(--mo2)}.kpi.kmo::before{background:var(--mo2)}.kpi-lbl{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--txt2);margin-bottom:.4rem}.kpi-val{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;line-height:1}.kpi.kaz .kpi-val{color:var(--az)}.kpi.kr2 .kpi-val{color:var(--r2)}.kpi.kv .kpi-val{color:var(--v)}.kpi.ka .kpi-val{color:var(--a)}.kpi.kmo .kpi-val{color:var(--mo)}.kpi-sub{font-size:.72rem;color:var(--txt2);margin-top:.3rem}.kpi-pct{font-size:.78rem;font-weight:700;margin-top:.25rem}.card{background:#fff;border-radius:var(--rad);padding:1.2rem;box-shadow:var(--sh);margin-bottom:1rem}.chdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}.cttl{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;color:var(--txt)}.csub{font-size:.73rem;color:var(--txt2);margin-top:2px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}.twrap{overflow:auto;max-height:440px}.twrap::-webkit-scrollbar{width:4px;height:4px}.twrap::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}table{width:100%;border-collapse:collapse;font-size:.8rem}th{background:#f7f9fb;padding:.6rem .8rem;text-align:left;font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g);border-bottom:2px solid var(--borde);white-space:nowrap;position:sticky;top:0;z-index:1}td{padding:.65rem .8rem;border-bottom:1px solid var(--borde);vertical-align:middle;color:var(--txt)}tr:hover td{background:#f8fafb}tr:last-child td{border-bottom:none}.num{text-align:right;font-family:'Space Grotesk',sans-serif;font-weight:500}.badge{display:inline-flex;align-items:center;gap:3px;padding:.2rem .65rem;border-radius:20px;font-size:.7rem;font-weight:700;white-space:nowrap}.br{background:var(--r3);color:var(--r)}.bv{background:var(--v3);color:var(--v)}.ba{background:var(--a3);color:var(--a)}.baz{background:var(--az3);color:var(--az)}.bmo{background:var(--mo3);color:var(--mo)}.bg{background:var(--g3);color:var(--g)}.dias{display:inline-block;padding:.2rem .55rem;border-radius:6px;font-size:.72rem;font-weight:800}.dc{background:#fdecea;color:#c0392b}.da{background:#fdf2e9;color:#b7450a}.dm{background:#fef9e7;color:#d68910}.dok{background:#d4edda;color:#1b5e37}.d0{background:#f4f6f7;color:#5d6d7e}.prog{display:flex;align-items:center;gap:6px}.prog-bg{flex:1;height:6px;background:#e8ecf0;border-radius:4px;overflow:hidden;max-width:90px}.prog-fill{height:100%;border-radius:4px}.prog-txt{font-size:.72rem;font-weight:700;min-width:32px;text-align:right}.zbar{display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid var(--borde)}.zbar:last-child{border-bottom:none}.zbar-nm{min-width:90px;font-size:.8rem;font-weight:600}.zbar-tr{flex:1;height:9px;background:#e8ecf0;border-radius:5px;overflow:hidden}.zbar-fl{height:100%;border-radius:5px}.zbar-inf{min-width:180px;text-align:right;font-size:.75rem;color:var(--txt2)}.zbar-inf strong{color:var(--txt)}.sc{border-radius:8px;padding:.85rem 1rem;margin-bottom:.7rem;border-left:4px solid}.sc-ok{background:#d4edda;border-left-color:#1b5e37}.sc-pa{background:#fef9e7;border-left-color:#d68910}.sc-no{background:#fdecea;border-left-color:#c0392b}.sc-ttl{font-size:.83rem;font-weight:700;margin-bottom:.3rem}.sc-det{font-size:.75rem;color:var(--txt2)}.fg{display:flex;flex-direction:column;gap:.3rem}.flbl{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--txt2)}.fin,.fsel{padding:.55rem .8rem;border:1.5px solid var(--borde);border-radius:8px;font-size:.85rem;font-family:'Inter',sans-serif;color:var(--txt);background:#fff;transition:border-color .2s}.fin:focus,.fsel:focus{outline:none;border-color:var(--v2);box-shadow:0 0 0 3px rgba(45,138,86,.1)}.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem}.bp{padding:.65rem 1.4rem;background:var(--v);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}.bp:hover{background:var(--v2)}.bs{padding:.55rem 1rem;background:#fff;color:var(--g);border:1.5px solid var(--borde);border-radius:8px;font-size:.82rem;cursor:pointer}.hr{border:none;border-top:1.5px solid var(--borde);margin:1rem 0}.aok{background:#d1fae5;color:#065f46;padding:.75rem 1rem;border-radius:8px;font-size:.83rem;font-weight:600;margin-bottom:.9rem;display:none}.aok.show{display:block}.drop-zone{border:2px dashed var(--borde);border-radius:10px;padding:2rem;text-align:center;background:var(--g3);cursor:pointer}.drop-zone:hover{border-color:var(--v2);background:#f0fff4}
+<style>:root{--v:#1b5e37;--v2:#2d8a56;--v3:#d4edda;--r:#c0392b;--r2:#e74c3c;--r3:#fdecea;--a:#d68910;--a2:#f39c12;--a3:#fef9e7;--az:#1a4f7a;--az2:#2980b9;--az3:#eaf4fb;--n:#b7450a;--n2:#e67e22;--n3:#fdf2e9;--mo:#6c3483;--mo2:#9b59b6;--mo3:#f5eef8;--g:#5d6d7e;--g2:#aab7b8;--g3:#f4f6f7;--borde:#e8ecf0;--sh:0 2px 12px rgba(0,0,0,.08);--rad:10px;--txt:#1c2833;--txt2:#5d6d7e;--dorado:#c9952a;--dorado2:#e8b84b;--verde-bosque:#1b3a1f;--cafe-tierra:#3d2516}*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',sans-serif;background:#eef1f5;color:var(--txt);font-size:14px}.hdr{background:linear-gradient(135deg,#0d2e1a 0%,#1b5e37 55%,#27ae60 100%);color:#fff}.hdr-top{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.8rem;border-bottom:1px solid rgba(255,255,255,.12)}.hdr-brand{display:flex;align-items:center;gap:.9rem}.hdr-logo{width:44px;height:44px;background:rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem}.hdr-ttl{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:700;letter-spacing:-.01em}.hdr-sub{font-size:.75rem;opacity:.7;margin-top:2px}.hdr-right{display:flex;gap:.7rem;align-items:center}.hdr-date{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:.4rem .9rem;font-size:.78rem;font-weight:500}.bh{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:8px;padding:.42rem .95rem;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s}.bh:hover{background:rgba(255,255,255,.25)}.tabs{background:#fff;border-bottom:2px solid var(--borde);padding:0 1.8rem;display:flex;overflow-x:auto}.tab{padding:.85rem 1.2rem;font-size:.83rem;font-weight:500;color:var(--g);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .18s;margin-bottom:-2px}.tab.active{color:var(--v);border-bottom-color:var(--v);font-weight:700}.tab:hover:not(.active){color:var(--v2)}.page{display:none;padding:1.4rem 1.8rem;max-width:1440px;margin:0 auto}.page.active{display:block}.kr{display:grid;gap:.9rem;margin-bottom:1.2rem}.k5{grid-template-columns:repeat(5,1fr)}.k4{grid-template-columns:repeat(4,1fr)}.k3{grid-template-columns:repeat(3,1fr)}.kpi{background:#fff;border-radius:var(--rad);padding:1rem 1.2rem;box-shadow:var(--sh);border-left:4px solid var(--borde);position:relative;overflow:hidden}.kpi::before{content:'';position:absolute;right:-12px;top:-12px;width:60px;height:60px;border-radius:50%;opacity:.06}.kpi.kaz{border-left-color:var(--az2)}.kpi.kaz::before{background:var(--az2)}.kpi.kr2{border-left-color:var(--r2)}.kpi.kr2::before{background:var(--r2)}.kpi.kv{border-left-color:var(--v2)}.kpi.kv::before{background:var(--v2)}.kpi.ka{border-left-color:var(--a2)}.kpi.ka::before{background:var(--a2)}.kpi.kmo{border-left-color:var(--mo2)}.kpi.kmo::before{background:var(--mo2)}.kpi-lbl{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--txt2);margin-bottom:.4rem}.kpi-val{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;line-height:1}.kpi.kaz .kpi-val{color:var(--az)}.kpi.kr2 .kpi-val{color:var(--r2)}.kpi.kv .kpi-val{color:var(--v)}.kpi.ka .kpi-val{color:var(--a)}.kpi.kmo .kpi-val{color:var(--mo)}.kpi-sub{font-size:.72rem;color:var(--txt2);margin-top:.3rem}.kpi-pct{font-size:.78rem;font-weight:700;margin-top:.25rem}.card{background:#fff;border-radius:var(--rad);padding:1.2rem;box-shadow:var(--sh);margin-bottom:1rem}.chdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}.cttl{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:600;color:var(--txt)}.csub{font-size:.73rem;color:var(--txt2);margin-top:2px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}.twrap{overflow:auto;max-height:440px}.twrap::-webkit-scrollbar{width:4px;height:4px}.twrap::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}table{width:100%;border-collapse:collapse;font-size:.8rem}th{background:#f7f9fb;padding:.6rem .8rem;text-align:left;font-size:.69rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g);border-bottom:2px solid var(--borde);white-space:nowrap;position:sticky;top:0;z-index:1}td{padding:.65rem .8rem;border-bottom:1px solid var(--borde);vertical-align:middle;color:var(--txt)}tr:hover td{background:#f8fafb}tr:last-child td{border-bottom:none}.num{text-align:right;font-family:'Space Grotesk',sans-serif;font-weight:500}.badge{display:inline-flex;align-items:center;gap:3px;padding:.2rem .65rem;border-radius:20px;font-size:.7rem;font-weight:700;white-space:nowrap}.br{background:var(--r3);color:var(--r)}.bv{background:var(--v3);color:var(--v)}.ba{background:var(--a3);color:var(--a)}.baz{background:var(--az3);color:var(--az)}.bmo{background:var(--mo3);color:var(--mo)}.bg{background:var(--g3);color:var(--g)}.dias{display:inline-block;padding:.2rem .55rem;border-radius:6px;font-size:.72rem;font-weight:800}.dc{background:#fdecea;color:#c0392b}.da{background:#fdf2e9;color:#b7450a}.dm{background:#fef9e7;color:#d68910}.dok{background:#d4edda;color:#1b5e37}.d0{background:#f4f6f7;color:#5d6d7e}.prog{display:flex;align-items:center;gap:6px}.prog-bg{flex:1;height:6px;background:#e8ecf0;border-radius:4px;overflow:hidden;max-width:90px}.prog-fill{height:100%;border-radius:4px}.prog-txt{font-size:.72rem;font-weight:700;min-width:32px;text-align:right}.zbar{display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid var(--borde)}.zbar:last-child{border-bottom:none}.zbar-nm{min-width:90px;font-size:.8rem;font-weight:600}.zbar-tr{flex:1;height:9px;background:#e8ecf0;border-radius:5px;overflow:hidden}.zbar-fl{height:100%;border-radius:5px}.zbar-inf{min-width:180px;text-align:right;font-size:.75rem;color:var(--txt2)}.zbar-inf strong{color:var(--txt)}.sc{border-radius:8px;padding:.85rem 1rem;margin-bottom:.7rem;border-left:4px solid}.sc-ok{background:#d4edda;border-left-color:#1b5e37}.sc-pa{background:#fef9e7;border-left-color:#d68910}.sc-no{background:#fdecea;border-left-color:#c0392b}.sc-ttl{font-size:.83rem;font-weight:700;margin-bottom:.3rem}.sc-det{font-size:.75rem;color:var(--txt2)}
+/* ── Tarjetas SOLTAR con ilustración de pilón ── */
+.sc-illus{display:flex;align-items:center;gap:.9rem}
+.sc-illus-icon{width:60px;height:60px;flex-shrink:0}
+.sc-illus-icon svg{width:100%;height:100%;display:block}
+.sc-illus-body{flex:1;min-width:0}
+.fg{display:flex;flex-direction:column;gap:.3rem}.flbl{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--txt2)}.fin,.fsel{padding:.55rem .8rem;border:1.5px solid var(--borde);border-radius:8px;font-size:.85rem;font-family:'Inter',sans-serif;color:var(--txt);background:#fff;transition:border-color .2s}.fin:focus,.fsel:focus{outline:none;border-color:var(--v2);box-shadow:0 0 0 3px rgba(45,138,86,.1)}.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem}.bp{padding:.65rem 1.4rem;background:var(--v);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .2s}.bp:hover{background:var(--v2)}.bs{padding:.55rem 1rem;background:#fff;color:var(--g);border:1.5px solid var(--borde);border-radius:8px;font-size:.82rem;cursor:pointer}.hr{border:none;border-top:1.5px solid var(--borde);margin:1rem 0}.aok{background:#d1fae5;color:#065f46;padding:.75rem 1rem;border-radius:8px;font-size:.83rem;font-weight:600;margin-bottom:.9rem;display:none}.aok.show{display:block}.drop-zone{border:2px dashed var(--borde);border-radius:10px;padding:2rem;text-align:center;background:var(--g3);cursor:pointer}.drop-zone:hover{border-color:var(--v2);background:#f0fff4}
 .jqrow{display:flex;align-items:center;gap:.85rem;padding:.65rem .4rem;border-bottom:1px solid var(--borde);cursor:pointer;transition:background .15s;border-radius:8px}
 .jqrow:last-child{border-bottom:none}
 .jqrow:hover{background:var(--g3)}
@@ -173,7 +182,24 @@ tbody tr:hover td{background:rgba(45,106,79,.06)!important}
 .jinfo{flex:1;min-width:0}
 .jnom{font-weight:700;font-size:.84rem;color:var(--txt);margin-bottom:.18rem}
 .jstat{font-size:.7rem;color:var(--txt2);margin-bottom:.32rem}
+
+/* ── BARRA DE PROGRESO CON HOJA DE TABACO (unificado) ── */
+.leafbar-wrap{display:flex;align-items:center;gap:.5rem;width:100%}
+.leafbar-track{flex:1;height:10px;background:#e8ecf0;border-radius:6px;overflow:visible;position:relative}
+.leafbar-fill{height:100%;border-radius:6px;position:relative;transition:width .3s}
+.leafbar-fill.empty{background:transparent!important}
+.leafbar-leaf{
+  position:absolute;top:50%;transform:translate(-50%,-50%);
+  width:18px;height:18px;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));
+  pointer-events:none;
+}
+.leafbar-pct{font-size:.72rem;font-weight:800;min-width:36px;text-align:right;flex-shrink:0}
+.leafbar-pct.zero{color:var(--g)!important}
+
+/* Old jbar classes mapped to new system for jefe panel rows */
 .jbarwrap{display:flex;align-items:center;gap:.5rem}
+
 .jbarbg{flex:1;height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden;position:relative}
 .jbartot{height:100%;border-radius:4px;position:absolute;top:0;left:0;opacity:.3}
 .jbarpend{height:100%;border-radius:4px;position:absolute;top:0;left:0}
@@ -247,7 +273,7 @@ tbody tr:hover td{background:rgba(45,106,79,.06)!important}
 .jqrow:hover img,.jqrow:hover div[style*="border-radius:50%"]{transform:scale(1.08);animation:none}
 
 /* ── Barras animadas ── */
-.jbartot,.jbarpend,.prog-fill,.zbar-fl,.zbar-fill{
+.leafbar-fill,.zbar-fl,.zbar-fill{
   animation:barGrow .9s cubic-bezier(.4,0,.2,1) both;
   animation-delay:.3s;
 }
@@ -332,12 +358,44 @@ tbody tr:hover td{background:rgba(45,106,79,.06)!important}
 <body>
 
 <!-- ═══════════════ PANTALLA DE LOGIN ═══════════════ -->
-<div id="loginScreen" style="position:fixed;inset:0;background:linear-gradient(135deg,#0d2e1a 0%,#1b5e37 55%,#27ae60 100%);display:flex;align-items:center;justify-content:center;z-index:99999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-  <div style="background:#fff;border-radius:20px;padding:2rem 1.8rem;width:min(90vw,360px);box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center">
-    <!-- Logo -->
-    <div style="width:70px;height:70px;background:linear-gradient(135deg,#1b5e37,#27ae60);border-radius:18px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 8px 20px rgba(27,94,55,.3)">🍃</div>
-    <div style="font-size:1.15rem;font-weight:700;color:#1c2833;margin-bottom:.3rem">Dashboard Fermentación</div>
-    <div style="font-size:.78rem;color:#5d6d7e;margin-bottom:1.5rem">Empresa Procesadora de Tabaco</div>
+<div id="loginScreen" style="position:fixed;inset:0;background:linear-gradient(160deg,#0a1f0f 0%,#1b3a1f 35%,#2c1810 100%);display:flex;align-items:center;justify-content:center;z-index:99999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow:hidden">
+  <!-- Hojas decorativas de tabaco en las esquinas -->
+  <div style="position:absolute;top:-30px;left:-30px;width:220px;height:220px;opacity:.85;pointer-events:none"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 10 Q70 20 110 70 Q130 100 120 150 Q90 110 50 90 Q15 70 10 10Z" fill="#3d6b2e"/>
+<path d="M10 10 Q70 20 110 70" fill="none" stroke="#2d4f23" stroke-width="2" opacity=".5"/>
+<path d="M30 30 Q60 55 85 95" fill="none" stroke="#2d4f23" stroke-width="1.4" opacity=".4"/>
+<path d="M20 18 L45 38 M35 25 L65 50 M50 35 L82 65 M65 48 L98 82" stroke="#2d4f23" stroke-width=".8" opacity=".3"/>
+</svg></div>
+  <div style="position:absolute;top:-30px;right:-30px;width:220px;height:220px;opacity:.85;pointer-events:none"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<path d="M190 10 Q130 20 90 70 Q70 100 80 150 Q110 110 150 90 Q185 70 190 10Z" fill="#3d6b2e"/>
+<path d="M190 10 Q130 20 90 70" fill="none" stroke="#2d4f23" stroke-width="2" opacity=".5"/>
+<path d="M170 30 Q140 55 115 95" fill="none" stroke="#2d4f23" stroke-width="1.4" opacity=".4"/>
+<path d="M180 18 L155 38 M165 25 L135 50 M150 35 L118 65 M135 48 L102 82" stroke="#2d4f23" stroke-width=".8" opacity=".3"/>
+</svg></div>
+  <div style="position:absolute;bottom:-30px;left:-30px;width:220px;height:220px;opacity:.85;pointer-events:none"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="dl1" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0%" stop-color="#8b5e3c"/><stop offset="100%" stop-color="#a06b3e"/></linearGradient></defs>
+<path d="M10 190 Q70 180 110 130 Q130 100 120 50 Q90 90 50 110 Q15 130 10 190Z" fill="url(#dl1)"/>
+<path d="M10 190 Q70 180 110 130" fill="none" stroke="#5c3320" stroke-width="2" opacity=".5"/>
+<path d="M30 170 Q60 145 85 105" fill="none" stroke="#5c3320" stroke-width="1.4" opacity=".4"/>
+</svg></div>
+  <div style="position:absolute;bottom:-30px;right:-30px;width:220px;height:220px;opacity:.85;pointer-events:none"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="dl2" x1="1" y1="0" x2="0" y2="0">
+<stop offset="0%" stop-color="#8b5e3c"/><stop offset="100%" stop-color="#a06b3e"/></linearGradient></defs>
+<path d="M190 190 Q130 180 90 130 Q70 100 80 50 Q110 90 150 110 Q185 130 190 190Z" fill="url(#dl2)"/>
+<path d="M190 190 Q130 180 90 130" fill="none" stroke="#5c3320" stroke-width="2" opacity=".5"/>
+<path d="M170 170 Q140 145 115 105" fill="none" stroke="#5c3320" stroke-width="1.4" opacity=".4"/>
+</svg></div>
+
+  <div style="background:#faf6f0;border-radius:20px;padding:2rem 1.8rem;width:min(90vw,360px);box-shadow:0 24px 70px rgba(0,0,0,.45);text-align:center;position:relative;z-index:2;border:1px solid rgba(201,149,42,.3)">
+    <!-- Logo PROTASA -->
+    <div style="width:74px;height:74px;background:linear-gradient(135deg,#2c1810,#5c3320);border-radius:18px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(44,24,16,.35);position:relative">
+      <svg viewBox="0 0 100 100" width="42" height="42">
+        <path d="M50 10 Q25 25 22 55 Q35 50 45 38 Q40 60 30 75 Q50 78 60 75 Q50 60 45 38 Q55 50 68 55 Q65 25 50 10Z" fill="#c9952a"/>
+      </svg>
+    </div>
+    <div style="font-size:1.2rem;font-weight:700;color:#2c1810;margin-bottom:.25rem;letter-spacing:.02em">Dashboard Fermentación</div>
+    <div style="font-size:.8rem;color:#c9952a;font-weight:700;letter-spacing:.12em;margin-bottom:1.4rem;text-transform:uppercase">PROTASA</div>
 
     <!-- Mensaje de error -->
     <div id="loginError" style="display:none;background:#fdecea;color:#c0392b;border-radius:8px;padding:.6rem;font-size:.8rem;font-weight:600;margin-bottom:.9rem">⚠️ PIN incorrecto. Intenta nuevamente.</div>
@@ -346,8 +404,8 @@ tbody tr:hover td{background:rgba(45,106,79,.06)!important}
     <div id="loginRol" style="display:none;margin-bottom:.9rem;padding:.5rem;border-radius:8px;font-size:.78rem;font-weight:600"></div>
 
     <!-- Display del PIN -->
-    <div style="background:#f4f6f7;border-radius:12px;padding:.9rem 1rem;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between">
-      <span style="font-size:.75rem;color:#5d6d7e;font-weight:600;text-transform:uppercase;letter-spacing:.05em">PIN</span>
+    <div style="background:#ede0cc;border-radius:12px;padding:.9rem 1rem;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:.75rem;color:#6b5040;font-weight:600;text-transform:uppercase;letter-spacing:.05em">PIN</span>
       <div id="pinDisplay" style="font-family:monospace;font-size:1.6rem;font-weight:700;color:#1c2833;letter-spacing:.3em;min-width:80px;text-align:center">____</div>
       <button onclick="borrarPin()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;color:#5d6d7e;padding:.2rem .4rem">⌫</button>
     </div>
@@ -365,10 +423,10 @@ tbody tr:hover td{background:rgba(45,106,79,.06)!important}
       <button class="pin-btn" onclick="presionarPin('9')">9</button>
       <button class="pin-btn" onclick="limpiarPin()" style="background:#fdecea;color:#c0392b">C</button>
       <button class="pin-btn" onclick="presionarPin('0')">0</button>
-      <button class="pin-btn" onclick="verificarPin()" style="background:linear-gradient(135deg,#1b5e37,#27ae60);color:#fff;font-size:1.2rem">✓</button>
+      <button class="pin-btn" onclick="verificarPin()" style="background:linear-gradient(135deg,#5c3320,#8b5e3c);color:#fff;font-size:1.2rem">✓</button>
     </div>
 
-    <div style="font-size:.72rem;color:#aab7b8">Contacta al administrador si olvidaste tu PIN</div>
+    <div style="font-size:.72rem;color:#a06b3e">Contacta al administrador si olvidaste tu PIN</div>
   </div>
 </div>
 
@@ -448,7 +506,7 @@ tbody tr:hover td{background:rgba(45,106,79,.06)!important}
 .jqrow:hover img,.jqrow:hover div[style*="border-radius:50%"]{transform:scale(1.08);animation:none}
 
 /* ── Barras animadas ── */
-.jbartot,.jbarpend,.prog-fill,.zbar-fl,.zbar-fill{
+.leafbar-fill,.zbar-fl,.zbar-fill{
   animation:barGrow .9s cubic-bezier(.4,0,.2,1) both;
   animation-delay:.3s;
 }
@@ -602,7 +660,7 @@ tbody tr:hover td{background:rgba(45,106,79,.06)!important}
 .jqrow:hover img,.jqrow:hover div[style*="border-radius:50%"]{transform:scale(1.08);animation:none}
 
 /* ── Barras animadas ── */
-.jbartot,.jbarpend,.prog-fill,.zbar-fl,.zbar-fill{
+.leafbar-fill,.zbar-fl,.zbar-fill{
   animation:barGrow .9s cubic-bezier(.4,0,.2,1) both;
   animation-delay:.3s;
 }
@@ -684,13 +742,31 @@ tbody tr:hover td{background:rgba(45,106,79,.06)!important}
 
 </style>
 </div>
-<div class="hdr">
-<div class="hdr-top">
+<div class="hdr" style="position:relative;overflow:hidden">
+<div style="position:absolute;top:-15px;right:5%;width:90px;height:90px;opacity:.18;pointer-events:none;transform:rotate(15deg)"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<path d="M190 10 Q130 20 90 70 Q70 100 80 150 Q110 110 150 90 Q185 70 190 10Z" fill="#3d6b2e"/>
+<path d="M190 10 Q130 20 90 70" fill="none" stroke="#2d4f23" stroke-width="2" opacity=".5"/>
+<path d="M170 30 Q140 55 115 95" fill="none" stroke="#2d4f23" stroke-width="1.4" opacity=".4"/>
+<path d="M180 18 L155 38 M165 25 L135 50 M150 35 L118 65 M135 48 L102 82" stroke="#2d4f23" stroke-width=".8" opacity=".3"/>
+</svg></div>
+<div style="position:absolute;bottom:-20px;left:8%;width:70px;height:70px;opacity:.15;pointer-events:none;transform:rotate(-10deg)"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="dl1" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0%" stop-color="#8b5e3c"/><stop offset="100%" stop-color="#a06b3e"/></linearGradient></defs>
+<path d="M10 190 Q70 180 110 130 Q130 100 120 50 Q90 90 50 110 Q15 130 10 190Z" fill="url(#dl1)"/>
+<path d="M10 190 Q70 180 110 130" fill="none" stroke="#5c3320" stroke-width="2" opacity=".5"/>
+<path d="M30 170 Q60 145 85 105" fill="none" stroke="#5c3320" stroke-width="1.4" opacity=".4"/>
+</svg></div>
+<div class="hdr-top" style="position:relative;z-index:1">
 <div class="hdr-brand">
-<div class="hdr-logo">🍃</div>
+<div class="hdr-logo" style="background:linear-gradient(135deg,#2c1810,#5c3320);position:relative;overflow:hidden">
+<div style="width:26px;height:26px"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<path d="M50 8 Q22 25 18 58 Q33 52 44 38 Q38 64 26 82 Q50 86 62 82 Q50 64 44 38 Q55 52 70 58 Q66 25 50 8Z" fill="#c9952a" opacity=".9"/>
+<line x1="50" y1="14" x2="50" y2="80" stroke="#e8b84b" stroke-width="1.4" opacity=".6"/>
+</svg></div>
+</div>
 <div>
-<div class="hdr-ttl">Dashboard Gerencial — Fermentación de Tabaco</div>
-<div class="hdr-sub">Control y Seguimiento de Actividades · Empresa Procesadora</div>
+<div class="hdr-ttl">Dashboard Gerencial de Fermentación</div>
+<div class="hdr-sub">Control y Seguimiento de Programas — PROTASA</div>
 </div>
 </div>
 <div class="hdr-right no-print">
@@ -708,7 +784,7 @@ tbody tr:hover td{background:rgba(45,106,79,.06)!important}
 <div class="tabs no-print">
 <button class="tab active" onclick="showTab('dash',this)">📊 Dashboard</button>
 <button class="tab" onclick="showTab('moja',this)">🌿 Mojas</button>
-<button class="tab" onclick="showTab('soltar',this)">📦 Soltar</button>
+<button class="tab" onclick="showTab('soltar',this)">🔪 Soltar</button>
 <button class="tab" onclick="showTab('atrasos',this)">⏰ Atrasos</button>
 <button class="tab" onclick="showTab('jefes',this)">👤 Por Jefe</button>
 <button class="tab" onclick="showTab('zonas',this)">📍 Por Zona</button>
@@ -861,7 +937,7 @@ tbody tr:hover td{background:rgba(45,106,79,.06)!important}
 • <strong>REALIZADO = NO</strong> → Días acumulan automáticamente: HOY − Mes Prog.<br>
 • <strong>REALIZADO = Fecha</strong> → Conteo fijo: Fecha − Mes Prog.</p>
 <p style="padding:.5rem .8rem;background:var(--mo3);border-radius:6px;border-left:3px solid var(--mo2)">
-<strong style="color:var(--mo)">📦 SOLTAR</strong><br>
+<strong style="color:var(--mo)">🔪 SOLTAR</strong><br>
 • <strong>SUELTO = NO</strong> → Pendiente soltar, días acumulan<br>
 • <strong>SUELTO = Fecha + ACOND = NO</strong> → ⚠️ Suelto, pend. acondicionar<br>
 • <strong>SUELTO = Fecha + ACOND = Fecha</strong> → ✅ Completo, días = Acond. − Mes Prog.</p>
@@ -1068,6 +1144,26 @@ document.addEventListener('keydown', e=>{
 });
 
 // Función para ocultar pantalla de carga
+
+// ── Barra de progreso unificada con hoja de tabaco ──────────────
+// pct: 0-100. col: color de relleno. Si pct===0, la barra queda sin color (vacía).
+function leafBar(pct, col){
+  pct = Math.max(0, Math.min(100, parseFloat(pct) || 0));
+  const hasProgress = pct > 0;
+  const fillStyle = hasProgress ? `width:${pct}%;background:${col}` : `width:0%`;
+  const leafSvg = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7 2 3 6.5 3 12c0 5 3.5 9 8 10 .3-3 1-5.5 2.5-7.7C15 12 17 10 19 8.5c-1.5 3-2.5 6-2.5 9.5 3-2 4.5-5.5 4.5-9C21 4 17 2 12 2z" fill="#ffffff" stroke="#1b5e37" stroke-width=".6"/><path d="M12 4c-2 4-2 12 0 16" stroke="#1b5e37" stroke-width=".7" fill="none" stroke-linecap="round"/></svg>';
+  const leaf = hasProgress
+    ? `<div class="leafbar-leaf" style="left:${pct}%">${leafSvg}</div>`
+    : '';
+  return `<div class="leafbar-wrap">
+    <div class="leafbar-track">
+      <div class="leafbar-fill${hasProgress?'':' empty'}" style="${fillStyle}"></div>
+      ${leaf}
+    </div>
+    <span class="leafbar-pct${hasProgress?'':' zero'}" style="${hasProgress?'color:'+col:''}">${pct.toFixed(0)}%</span>
+  </div>`;
+}
+
 function ocultarSpinner(){
   const sp=document.getElementById('initSpinner');
   if(sp){sp.style.opacity='0';setTimeout(function(){if(sp.parentNode)sp.parentNode.removeChild(sp);},600);}
@@ -1304,16 +1400,15 @@ document.getElementById('donutLeg').innerHTML=dLabels.map((l,i)=>`
 <strong style="font-size:.8rem">${counts[i]} <span style="color:#aab7b8">(${(counts[i]/tot*100).toFixed(0)}%)</span></strong>
 </div>`).join('');
 const jefes=[...new Set(d.map(r=>r.jefe))].sort();
-  const jPal=['#1d3557','#457b9d','#2d6a4f','#40916c','#e76f51','#c1121f'];
+  const jPal=['#1a4f7a','#2980b9','#1b5e37','#27ae60','#e67e22','#c0392b'];
   const maxQQJ=Math.max(...jefes.map(j=>d.filter(r=>r.jefe===j).reduce((a,r)=>a+r.qqs,0)));
   const jPanel=document.getElementById('jefeQQPanel');
   if(jPanel){
     jPanel.innerHTML='<div>'+jefes.map((j,i)=>{
       const totQQ=d.filter(r=>r.jefe===j).reduce((a,r)=>a+r.qqs,0);
-      const pendQQ=d.filter(r=>r.jefe===j&&isPend(r)).reduce((a,r)=>a+r.qqs,0);
-      const pct=totQQ>0?(pendQQ/totQQ*100).toFixed(0):0;
-      const bwTot=(totQQ/maxQQJ*100).toFixed(0);
-      const bwPend=(pendQQ/maxQQJ*100).toFixed(0);
+      const compQQ=d.filter(r=>r.jefe===j&&!isPend(r)).reduce((a,r)=>a+r.qqs,0);
+      const pendQQ=totQQ-compQQ;
+      const pctAvance=totQQ>0?(compQQ/totQQ*100):0;
       const col=jPal[i%jPal.length];
       const foto=typeof FOTOS_JEFES!=='undefined'&&FOTOS_JEFES[j]?FOTOS_JEFES[j]:null;
       const av=foto
@@ -1323,14 +1418,8 @@ const jefes=[...new Set(d.map(r=>r.jefe))].sort();
         ${av}
         <div class="jinfo">
           <div class="jnom">${j}</div>
-          <div class="jstat">Total: <strong>${totQQ.toFixed(2)}</strong> QQs &nbsp;·&nbsp; <span style="color:var(--r2)">Pendiente: ${pendQQ.toFixed(2)} QQs</span></div>
-          <div class="jbarwrap">
-            <div class="jbarbg">
-              <div class="jbartot" style="width:${bwTot}%;background:${col}"></div>
-              <div class="jbarpend" style="width:${bwPend}%;background:var(--r2)"></div>
-            </div>
-            <span class="jpct">${pct}%</span>
-          </div>
+          <div class="jstat">Total: <strong>${totQQ.toFixed(2)}</strong> QQs &nbsp;·&nbsp; <span style="color:var(--v)">Avanzado: ${compQQ.toFixed(2)} QQs</span> &nbsp;·&nbsp; <span style="color:var(--r2)">Pendiente: ${pendQQ.toFixed(2)} QQs</span></div>
+          ${leafBar(pctAvance, col)}
         </div>
       </div>`;
     }).join('')+'</div>';
@@ -1368,7 +1457,7 @@ return `<div style="display:flex;align-items:center;gap:.75rem;padding:.7rem 0;b
 const zonas=[...new Set(d.map(r=>r.zona))];
 const zd=zonas.map(z=>({z,qq:d.filter(r=>r.zona===z).reduce((a,r)=>a+r.qqs,0),p:d.filter(r=>r.zona===z).length,pend:d.filter(r=>r.zona===z&&isPend(r)).length})).sort((a,b)=>b.qq-a.qq);
 const maxQQ=Math.max(...zd.map(x=>x.qq));
-const zcols=['#1b5e37','#2d8a56','#40b070','#27ae60','#52be80','#82e0aa','#abebc6'];
+const zcols=['#1b5e37','#27ae60','#40b070','#27ae60','#52be80','#82e0aa','#abebc6'];
 document.getElementById('zonaHeat').innerHTML=zd.map((z,i)=>`
 <div class="zbar">
 <div class="zbar-nm">${z.z}</div>
@@ -1390,10 +1479,10 @@ document.getElementById('kpiMoja').innerHTML=`
 mkBar('cMojaBar',acts,[
 {label:'Realizados',data:acts.map(a=>d.filter(r=>r.actividad===a&&r._s==='REALIZADO').length),backgroundColor:'#27ae60',borderRadius:5},
 {label:'No realizados',data:acts.map(a=>d.filter(r=>r.actividad===a&&r._s==='NO REALIZADO').length),backgroundColor:'#e74c3c',borderRadius:5}]);
-const aCols=['#2980b9','#27ae60','#8e44ad'];
+const aCols=['#16a085','#2980b9','#1e8449','#d4ac0d'];
 document.getElementById('mojaProgreso').innerHTML=acts.map((a,i)=>{
 const xs=d.filter(r=>r.actividad===a), comp=xs.filter(r=>r._s==='REALIZADO').length;
-const pct=xs.length?(comp/xs.length*100).toFixed(0):0;
+const pct=xs.length?(comp/xs.length*100):0;
 const pendM=xs.filter(r=>r._s==='NO REALIZADO'), maxD=pendM.length?Math.max(...pendM.map(r=>r._d)):0;
 return `<div style="padding:.7rem 0;border-bottom:1px solid var(--borde)">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem">
@@ -1401,9 +1490,7 @@ return `<div style="padding:.7rem 0;border-bottom:1px solid var(--borde)">
 <div style="font-size:.75rem;color:var(--g)">${xs.length} pilones · ${xs.reduce((s,r)=>s+r.qqs,0).toFixed(2)} QQs</div>
 </div>
 <div style="display:flex;align-items:center;gap:.6rem">
-<div style="flex:1;height:10px;background:#e8ecf0;border-radius:5px;overflow:hidden">
-<div style="width:${pct}%;height:100%;background:${aCols[i]};border-radius:5px"></div></div>
-<span style="font-size:.78rem;font-weight:700;min-width:32px">${pct}%</span>
+${leafBar(pct, aCols[i])}
 ${maxD>0?`<span class="dias ${nBadge(maxD).cls}" style="font-size:.68rem">max ${maxD}d</span>`:''}
 </div>
 <div style="font-size:.72rem;color:var(--g);margin-top:.3rem">${comp} realizados · ${xs.length-comp} pendientes</div></div>`;
@@ -1414,7 +1501,7 @@ const pendM=xs.filter(r=>r._s==='NO REALIZADO'), pct=(comp/xs.length*100).toFixe
 const maxD=pendM.length?Math.max(...pendM.map(r=>r._d)):0, nb=nBadge(maxD);
 return `<tr><td><strong>${a}</strong></td><td>${xs.length}</td><td class="num">${xs.reduce((s,r)=>s+r.qqs,0).toFixed(2)}</td>
 <td><span class="badge bv">✅ ${comp}</span></td><td><span class="badge br">⏳ ${xs.length-comp}</span></td>
-<td><div class="prog"><div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:#27ae60"></div></div><span class="prog-txt">${pct}%</span></div></td>
+<td>${leafBar(pct, "#27ae60")}</td>
 <td>${maxD>0?`<span class="dias ${nb.cls}">${maxD} días</span>`:'-'}</td></tr>`;
 }).join('');
 document.getElementById('tblMojaPend').innerHTML=d.filter(r=>r._s==='NO REALIZADO').sort((a,b)=>b._d-a._d).map((r,i)=>{
@@ -1449,17 +1536,100 @@ options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:
 const masAt=pendS.length?[...pendS].sort((a,b)=>b._d-a._d)[0]:null;
 document.getElementById('soltarResumen').innerHTML=`
 <div class="sc sc-no">
-<div class="sc-ttl">🔴 Pendientes de soltar — ${pendS.length} pilones</div>
+<div class="sc-illus">
+<div class="sc-illus-icon"><svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="p1" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="#a06b3e"/><stop offset="100%" stop-color="#6b4226"/>
+</linearGradient></defs>
+<ellipse cx="45" cy="79" rx="33" ry="6" fill="#3d2516" opacity=".22"/>
+<path d="M14 68 Q11 47 19 32 Q25 17 45 13 Q65 17 71 32 Q79 47 76 68 Q61 79 45 79 Q29 79 14 68Z" fill="url(#p1)"/>
+<path d="M19 32 Q25 17 45 13 Q65 17 71 32" fill="none" stroke="#3d2516" stroke-width="1.6" opacity=".55"/>
+<g stroke="#3d2516" stroke-width="1.2" opacity=".5" fill="none">
+<path d="M21 39 Q45 45 69 39"/><path d="M17 50 Q45 58 73 50"/><path d="M16 61 Q45 69 74 61"/>
+</g>
+<g stroke="#2a1810" stroke-width=".9" opacity=".4" fill="none">
+<path d="M29 22 Q32 44 27 67"/><path d="M45 15 Q47 44 45 75"/><path d="M61 22 Q59 44 64 67"/>
+</g>
+<rect x="19" y="35" width="52" height="6.5" rx="3.2" fill="#c9952a"/>
+<rect x="16" y="58" width="58" height="6.5" rx="3.2" fill="#c9952a"/>
+<circle cx="73" cy="18" r="10.5" fill="#c0392b"/>
+<text x="73" y="23" font-size="13" text-anchor="middle" fill="#fff" font-weight="700">!</text>
+</svg></div>
+<div class="sc-illus-body">
+<div class="sc-ttl">Pendientes de soltar — ${pendS.length} pilones</div>
 <div class="sc-det">SUELTO = NO. Días acumulan automáticamente. ${pendS.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs sin iniciar.${masAt?' Más atrasado: <strong>'+masAt.pilon+'</strong> ('+masAt._d+' días)':''}</div>
-</div>
+</div></div></div>
 ${spa.length?`<div class="sc sc-pa">
-<div class="sc-ttl">⚠️ Sueltos pendientes de acondicionar — ${spa.length} pilones</div>
+<div class="sc-illus">
+<div class="sc-illus-icon"><svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="h1" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#c9952a"/><stop offset="100%" stop-color="#a06b3e"/>
+</linearGradient>
+<linearGradient id="h2" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#b8895a"/><stop offset="100%" stop-color="#8b5e3c"/>
+</linearGradient>
+</defs>
+<!-- Hoja 1: izquierda, inclinada -->
+<g transform="translate(20,48) rotate(-22)">
+<path d="M0 0 Q-9 -16 0 -34 Q9 -16 0 0Z" fill="url(#h1)"/>
+<line x1="0" y1="-2" x2="0" y2="-32" stroke="#7a4f2d" stroke-width="1" opacity=".6"/>
+<path d="M0 -8 Q-5 -12 -7 -18" stroke="#7a4f2d" stroke-width=".7" opacity=".5" fill="none"/>
+<path d="M0 -8 Q5 -12 7 -18" stroke="#7a4f2d" stroke-width=".7" opacity=".5" fill="none"/>
+</g>
+<!-- Hoja 2: centro, casi vertical -->
+<g transform="translate(45,52) rotate(4)">
+<path d="M0 0 Q-11 -19 0 -40 Q11 -19 0 0Z" fill="url(#h2)"/>
+<line x1="0" y1="-2" x2="0" y2="-38" stroke="#5c3320" stroke-width="1.1" opacity=".6"/>
+<path d="M0 -10 Q-6 -15 -9 -22" stroke="#5c3320" stroke-width=".8" opacity=".5" fill="none"/>
+<path d="M0 -10 Q6 -15 9 -22" stroke="#5c3320" stroke-width=".8" opacity=".5" fill="none"/>
+<path d="M0 -22 Q-4 -26 -6 -31" stroke="#5c3320" stroke-width=".7" opacity=".45" fill="none"/>
+<path d="M0 -22 Q4 -26 6 -31" stroke="#5c3320" stroke-width=".7" opacity=".45" fill="none"/>
+</g>
+<!-- Hoja 3: derecha, separada, curvada -->
+<g transform="translate(68,50) rotate(20)">
+<path d="M0 0 Q-8 -15 0 -32 Q8 -15 0 0Z" fill="url(#h1)"/>
+<line x1="0" y1="-2" x2="0" y2="-30" stroke="#7a4f2d" stroke-width=".9" opacity=".6"/>
+</g>
+<!-- líneas de "crujido seco" -->
+<g stroke="#7a4f2d" stroke-width=".6" opacity=".35" fill="none">
+<path d="M14 60 L18 56"/><path d="M70 62 L74 58"/>
+</g>
+<ellipse cx="45" cy="78" rx="36" ry="5" fill="#7a4f2d" opacity=".15"/>
+<circle cx="73" cy="20" r="10.5" fill="#d68910"/>
+<text x="73" y="25" font-size="13" text-anchor="middle" fill="#fff" font-weight="700">!</text>
+</svg></div>
+<div class="sc-illus-body">
+<div class="sc-ttl">Sueltos pendientes de acondicionar — ${spa.length} pilones</div>
 <div class="sc-det">SUELTO = Fecha · ACONDICIONADO = NO. ${spa.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs requieren acondicionamiento.</div>
-</div>`:''}
+</div></div></div>`:''}
 <div class="sc sc-ok">
-<div class="sc-ttl">✅ Sueltos y acondicionados — ${comp.length} pilones</div>
+<div class="sc-illus">
+<div class="sc-illus-icon"><svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="p3" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="#8b5e3c"/><stop offset="100%" stop-color="#5c3320"/>
+</linearGradient></defs>
+<ellipse cx="45" cy="79" rx="33" ry="6" fill="#3d5c2e" opacity=".18"/>
+<path d="M14 68 Q11 47 19 32 Q25 17 45 13 Q65 17 71 32 Q79 47 76 68 Q61 79 45 79 Q29 79 14 68Z" fill="url(#p3)"/>
+<path d="M19 32 Q25 17 45 13 Q65 17 71 32" fill="none" stroke="#3d2516" stroke-width="1.4" opacity=".5"/>
+<g stroke="#3d2516" stroke-width="1.1" opacity=".4" fill="none">
+<path d="M21 39 Q45 45 69 39"/><path d="M17 50 Q45 58 73 50"/><path d="M16 61 Q45 69 74 61"/>
+</g>
+<!-- vapor de fermentación -->
+<g opacity=".8">
+<path d="M30 6 Q26 -2 30 -9 Q34 -2 30 6Z" fill="#d6e8c8"/>
+<path d="M45 3 Q41 -6 45 -14 Q49 -6 45 3Z" fill="#d6e8c8"/>
+<path d="M60 6 Q56 -2 60 -9 Q64 -2 60 6Z" fill="#d6e8c8"/>
+</g>
+<!-- gota de calidez interior -->
+<path d="M45 38 Q41 45 45 52 Q49 45 45 38Z" fill="#e67e22" opacity=".65"/>
+<circle cx="73" cy="18" r="10.5" fill="#27ae60"/>
+<path d="M68 18 L72 23 L79 13" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></div>
+<div class="sc-illus-body">
+<div class="sc-ttl">Sueltos y acondicionados — ${comp.length} pilones</div>
 <div class="sc-det">SUELTO = Fecha · ACONDICIONADO = Fecha. Actividad completa. ${comp.reduce((a,r)=>a+r.qqs,0).toFixed(2)} QQs finalizados.</div>
-</div>`;
+</div></div></div>`;
 document.getElementById('tblSoltarPend').innerHTML=pendS.sort((a,b)=>b._d-a._d).map((r,i)=>{
 const nb=nBadge(r._d);
 return `<tr><td style="color:var(--g)">${i+1}</td><td><strong>${r.pilon}</strong></td><td>${r.jefe}</td><td>${r.zona}</td>
@@ -1510,7 +1680,7 @@ return `<tr><td style="color:var(--g)">${i+1}</td><td><strong>${r.pilon}</strong
 // ── JEFES ────────────────────────────────────────────────────
 function renderJefes(){
 const d=enrich(), jefes=[...new Set(d.map(r=>r.jefe))].sort();
-const cols=['#1a4f7a','#1b5e37','#6c3483','#b7450a','#d68910','#c0392b'];
+const cols=['#1a4f7a','#1b5e37','#2980b9','#b7450a','#d68910','#c0392b'];
 const actC={'PRE MOJA':'#16a085','1ERA. MOJA':'#2980b9','2DA MOJA':'#27ae60','3ER. MOJA':'#8e44ad','SOLTAR':'#e67e22'};
 document.getElementById('jefeCards').innerHTML=jefes.map((j,idx)=>{
   const xs=d.filter(r=>r.jefe===j);
@@ -1597,7 +1767,7 @@ const pct=z.tot?(z.comp/z.tot*100).toFixed(0):0, nb=nBadge(+z.prom);
 return `<tr><td><strong>${z.z}</strong></td><td class="num">${z.tot}</td><td class="num">${z.qq.toFixed(2)}</td>
 <td class="num" style="color:var(--r);font-weight:600">${z.pend}</td><td class="num">${z.qqP.toFixed(2)}</td>
 <td class="num" style="color:var(--v)">${z.comp}</td>
-<td><div class="prog"><div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:${+pct>70?'#2d8a56':+pct>30?'#d68910':'#e74c3c'}"></div></div><span class="prog-txt">${pct}%</span></div></td>
+<td>${leafBar(pct, +pct>70?"#2d8a56":+pct>30?"#d68910":"#e74c3c")}</td>
 <td>${z.prom>0?`<span class="dias ${nb.cls}">${z.prom}d</span>`:'-'}</td></tr>`;
 }).join('');
 mkBar('cZonas',zd.map(z=>z.z),[
@@ -1706,7 +1876,7 @@ return `<div style="background:var(--g3);border-radius:10px;padding:.9rem;margin
 <button class="btn-edit" onclick="abrirEditar(${idx})">✏️ Editar datos</button>
 <button class="btn-del" onclick="abrirDel(${idx})">🗑️ Eliminar</button>
 ${!isSoltar&&r._s==='NO REALIZADO'?`<button class="bp" style="padding:.38rem .8rem;font-size:.75rem" onclick="marcarRealHoy(${idx})">✅ Realizado hoy</button>`:''}
-${isSoltar&&r._s==='PENDIENTE SOLTAR'?`<button class="bp" style="padding:.38rem .8rem;font-size:.75rem" onclick="marcarSueltoHoy(${idx})">📦 Suelto hoy</button>`:''}
+${isSoltar&&r._s==='PENDIENTE SOLTAR'?`<button class="bp" style="padding:.38rem .8rem;font-size:.75rem" onclick="marcarSueltoHoy(${idx})">🔪 Suelto hoy</button>`:''}
 ${isSoltar&&r._s==='SUELTO PEND. ACONDICIONAR'?`<button class="bp" style="padding:.38rem .8rem;font-size:.75rem;background:var(--v2)" onclick="marcarAcondHoy(${idx})">✅ Acondicionado hoy</button>`:''}
 </div>
 </div>`;
@@ -1723,7 +1893,7 @@ function marcarSueltoHoy(idx){
 const k={pilon:DATA[idx].pilon,mes:DATA[idx].mes,jefe:DATA[idx].jefe};
 DATA[idx].suelto=HOY_STR; DATA[idx].acondicionado='NO';
 syncToSheets('update',DATA[idx],k);
-showToast('📦 Suelto registrado en Google Sheets','ok');
+showToast('🔪 Suelto registrado en Google Sheets','ok');
 buscarEditar();renderAll();
 }
 function marcarAcondHoy(idx){
@@ -1913,6 +2083,74 @@ setTimeout(ocultarSpinner, 2000); // fallback: ocultar tras 2s máximo
 // Conectar a Google Sheets automáticamente al abrir
 loadFromSheets();
 
+// ══════════════════════════════════════════════════════════
+// AUTO-ACTUALIZACIÓN — Sin necesidad de presionar el botón ↻
+// ══════════════════════════════════════════════════════════
+const AUTO_REFRESH_MS = 30000; // Revisa Google Sheets cada 30 segundos
+let _autoRefreshTimer = null;
+let _lastDataHash = '';
+
+function _hashData(data){
+  // Hash simple para detectar si los datos cambiaron
+  try{
+    return data.length + ':' + JSON.stringify(data).length;
+  }catch(e){ return Math.random().toString(); }
+}
+
+async function checkForUpdates(){
+  // No interrumpe modales abiertos ni formularios en edición
+  if(document.querySelector('.modal-bg.open')) return;
+  if(_bIdx >= 0 && document.getElementById('fBod') && document.getElementById('fBod').style.display!=='none') return;
+  try{
+    const r = await fetch(SCRIPT_URL+'?t='+Date.now(), {method:'GET', mode:'cors'});
+    const j = await r.json();
+    if(j.status==='ok' && Array.isArray(j.data) && j.data.length>0){
+      const newHash = _hashData(j.data);
+      if(newHash !== _lastDataHash){
+        _lastDataHash = newHash;
+        DATA = j.data.map(row=>({
+          mes: String(row.mes||''),
+          jefe: String(row.jefe||''),
+          zona: String(row.zona||''),
+          pilon: String(row.pilon||''),
+          qqs: parseFloat(String(row.qqs||0).toString().replace(',','.'))||0,
+          actividad: String(row.actividad||''),
+          realizado: String(row.realizado||''),
+          suelto: String(row.suelto||''),
+          acondicionado: String(row.acondicionado||'')
+        }));
+        renderAll();
+        setStatus(true);
+        toast('🔄 Datos actualizados automáticamente','ok',2500);
+      }
+    }
+  }catch(e){
+    // Silencioso: si falla la conexión no molesta al usuario, solo lo intenta de nuevo en el siguiente ciclo
+  }
+}
+
+function startAutoRefresh(){
+  if(_autoRefreshTimer) clearInterval(_autoRefreshTimer);
+  _autoRefreshTimer = setInterval(checkForUpdates, AUTO_REFRESH_MS);
+}
+
+function stopAutoRefresh(){
+  if(_autoRefreshTimer){ clearInterval(_autoRefreshTimer); _autoRefreshTimer = null; }
+}
+
+// Pausar auto-refresco cuando la pestaña/app no está visible (ahorra batería y datos)
+document.addEventListener('visibilitychange', ()=>{
+  if(document.hidden){
+    stopAutoRefresh();
+  } else {
+    startAutoRefresh();
+    checkForUpdates(); // Revisa inmediatamente al volver a la app
+  }
+});
+
+// Iniciar el ciclo de auto-actualización
+startAutoRefresh();
+
 /* ── Contador animado para KPIs ── */
 function animateCounter(el, target, duration=900, isFloat=false, decimals=2){
   if(!el) return;
@@ -1940,7 +2178,7 @@ function animateCounter(el, target, duration=900, isFloat=false, decimals=2){
 
 
 function reanimBars(){
-  document.querySelectorAll('.jbartot,.jbarpend,.prog-fill,.zbar-fl,.zbar-fill,.jbarpend').forEach(el=>{
+  document.querySelectorAll('.leafbar-fill,.zbar-fl,.zbar-fill').forEach(el=>{
     el.style.animation='none';
     requestAnimationFrame(()=>{ el.style.animation=''; });
   });
