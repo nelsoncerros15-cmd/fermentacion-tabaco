@@ -2,9 +2,6 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Dashboard Fermentación de Tabaco</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -268,7 +265,7 @@ tr:last-child td{border-bottom:none}
 </div>
 <div class="tabs no-print">
   <button class="tab active" onclick="showTab('dash',this)">📊 Dashboard</button>
-  <button class="tab" onclick="showTab('moja',this)">🌿 Mojas</button>
+  <button class="tab" onclick="showTab('moja',this)">💧 Mojas</button>
   <button class="tab" onclick="showTab('soltar',this)">📦 Soltar</button>
   <button class="tab" onclick="showTab('atrasos',this)">⏰ Atrasos</button>
   <button class="tab" onclick="showTab('jefes',this)">👤 Por Jefe</button>
@@ -768,6 +765,8 @@ function renderDash(){
     const _mx=Math.max(..._jf.map(j=>d.filter(r=>r.jefe===j).reduce((a,r)=>a+r.qqs,0)),1);
     const _pan=document.getElementById('jefeQQPanel');
     if(!_pan)return;
+    const _leaf='<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))"><path d="M8 1C5 1 2 4 2 8c0 3 2 5.5 5 6 .2-2 .7-3.5 1.5-5C9.5 7.5 11 6 12.5 5c-1 2-1.5 4-1.5 6.5 2-1.5 3-4 3-6C14 3 11 1 8 1z" fill="#8b5e3c"/><path d="M8 2.5c-1.5 2.5-1.5 8 0 11" stroke="#5c3320" stroke-width=".8" fill="none" stroke-linecap="round" opacity=".7"/></svg>';
+    const _star='<svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" style="width:12px;height:12px;filter:drop-shadow(0 0 3px #f39c12)"><polygon points="9,1 11.5,6.5 17.5,7 13,11 14.5,17 9,14 3.5,17 5,11 0.5,7 6.5,6.5" fill="#f39c12" stroke="#e67e22" stroke-width=".5"/></svg>';
     _pan.innerHTML=_jf.map((j,i)=>{
       const _col=_pc[i%_pc.length];
       const _tq=d.filter(r=>r.jefe===j).reduce((a,r)=>a+r.qqs,0);
@@ -775,7 +774,7 @@ function renderDash(){
       const _pq=(_tq-_cq).toFixed(2);
       const _pct=_tq>0?(_cq/_tq*100):0;
       const _bT=(_tq/_mx*100).toFixed(0);
-      const _bC=(_cq/_mx*100).toFixed(0);
+      const _bC=Math.min((_cq/_mx*100),100).toFixed(0);
       const _foto=typeof FOTOS_JEFES!=='undefined'&&FOTOS_JEFES[j];
       const _av=_foto?`<img src="${_foto}" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:3px solid ${_col};flex-shrink:0">`:`<div style="width:48px;height:48px;border-radius:50%;background:${_col};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:#fff;flex-shrink:0">${j.charAt(0)}</div>`;
       return `<div style="display:flex;align-items:center;gap:.8rem;padding:.6rem .2rem;border-bottom:1px solid var(--borde)">
@@ -784,11 +783,12 @@ function renderDash(){
           <div style="font-weight:700;font-size:.83rem;margin-bottom:.12rem">${j}</div>
           <div style="font-size:.69rem;color:var(--g);margin-bottom:.28rem">Total:<strong>${_tq.toFixed(2)}</strong> QQs · <span style="color:var(--r2)">Pend:${_pq}</span></div>
           <div style="display:flex;align-items:center;gap:.4rem">
-            <div style="flex:1;height:7px;background:#e8ecf0;border-radius:4px;overflow:hidden;position:relative">
-              <div style="width:${_bT}%;height:100%;background:${_col};opacity:.22;position:absolute;top:0;left:0"></div>
+            <div style="flex:1;height:8px;background:#e8ecf0;border-radius:4px;position:relative;overflow:visible">
+              <div style="width:${_bT}%;height:100%;background:${_col};opacity:.22;position:absolute;top:0;left:0;border-radius:4px"></div>
               <div style="width:${_bC}%;height:100%;background:${_col};position:absolute;top:0;left:0;border-radius:4px"></div>
+              ${_bC>0?`<div style="position:absolute;top:50%;left:${_bC}%;transform:translate(-50%,-50%);z-index:3;pointer-events:none">${_leaf}</div>`:''}
             </div>
-            <span style="font-size:.7rem;font-weight:700;min-width:32px;text-align:right;color:${_pct>0?_col:'var(--g)'}">${_pct.toFixed(0)}%</span>
+            ${_pct>=100?`<span style="font-size:.7rem;font-weight:800;min-width:40px;display:flex;align-items:center;gap:1px;color:#f39c12">${_star}100%</span>`:`<span style="font-size:.7rem;font-weight:700;min-width:32px;text-align:right;color:${_pct>0?_col:'var(--g)'}">${_pct.toFixed(0)}%</span>`}
           </div>
         </div>
       </div>`;
@@ -816,8 +816,11 @@ function renderDash(){
           <span>📍 ${r.zona}</span>
           <span>⚖️ ${r.qqs.toFixed(2)} QQs</span>
         </div>
-        <div style="margin-top:.35rem;height:4px;background:#e8ecf0;border-radius:3px;overflow:hidden">
-          <div style="width:${(r._d/maxT*100).toFixed(0)}%;height:100%;background:${t6Colors[i]};border-radius:3px"></div></div>
+        <div style="margin-top:.35rem;height:5px;background:#e8ecf0;border-radius:3px;position:relative;overflow:visible">
+          <div style="width:${(r._d/maxT*100).toFixed(0)}%;height:100%;background:${t6Colors[i]};border-radius:3px"></div>
+          ${(r._d/maxT*100).toFixed(0)>0?`<div style="position:absolute;top:50%;left:${(r._d/maxT*100).toFixed(0)}%;transform:translate(-50%,-50%);z-index:2;pointer-events:none"><svg viewBox=\"0 0 16 16\" xmlns=\"http://www.w3.org/2000/svg\" style=\"width:13px;height:13px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))\"><path d=\"M8 1C5 1 2 4 2 8c0 3 2 5.5 5 6 .2-2 .7-3.5 1.5-5C9.5 7.5 11 6 12.5 5c-1 2-1.5 4-1.5 6.5 2-1.5 3-4 3-6C14 3 11 1 8 1z\" fill=\"#8b5e3c\"/><path d=\"M8 2.5c-1.5 2.5-1.5 8 0 11\" stroke=\"#5c3320\" stroke-width=\".8\" fill=\"none\" stroke-linecap=\"round\" opacity=\".7\"/></svg></div>`:''}
+          ${(r._d/maxT*100).toFixed(0)>=100?`<div style="position:absolute;top:50%;right:-18px;transform:translateY(-50%)"><svg viewBox=\"0 0 18 18\" xmlns=\"http://www.w3.org/2000/svg\" style=\"width:12px;height:12px;filter:drop-shadow(0 0 3px #f39c12)\"><polygon points=\"9,1 11.5,6.5 17.5,7 13,11 14.5,17 9,14 3.5,17 5,11 0.5,7 6.5,6.5\" fill=\"#f39c12\" stroke=\"#e67e22\" stroke-width=\".5\"/></svg></div>`:''}
+        </div>
       </div>
       <div style="text-align:center;flex-shrink:0">
         <div class="dias ${nb.cls}" style="font-size:.8rem;padding:.28rem .65rem">${r._d}d</div>
@@ -852,7 +855,7 @@ function renderMoja(){
   mkBar('cMojaBar',acts,[
     {label:'Realizados',data:acts.map(a=>d.filter(r=>r.actividad===a&&r._s==='REALIZADO').length),backgroundColor:'#27ae60',borderRadius:5},
     {label:'No realizados',data:acts.map(a=>d.filter(r=>r.actividad===a&&r._s==='NO REALIZADO').length),backgroundColor:'#e74c3c',borderRadius:5}]);
-  const aCols=['#2980b9','#27ae60','#8e44ad'];
+  const aCols=['#16a085','#2980b9','#27ae60','#e67e22','#6c3483'];
   document.getElementById('mojaProgreso').innerHTML=acts.map((a,i)=>{
     const xs=d.filter(r=>r.actividad===a), comp=xs.filter(r=>r._s==='REALIZADO').length;
     const pct=xs.length?(comp/xs.length*100).toFixed(0):0;
@@ -863,9 +866,11 @@ function renderMoja(){
         <div style="font-size:.75rem;color:var(--g)">${xs.length} pilones · ${xs.reduce((s,r)=>s+r.qqs,0).toFixed(2)} QQs</div>
       </div>
       <div style="display:flex;align-items:center;gap:.6rem">
-        <div style="flex:1;height:10px;background:#e8ecf0;border-radius:5px;overflow:hidden">
-          <div style="width:${pct}%;height:100%;background:${aCols[i]};border-radius:5px"></div></div>
-        <span style="font-size:.78rem;font-weight:700;min-width:32px">${pct}%</span>
+        <div style="flex:1;height:10px;background:#e8ecf0;border-radius:5px;position:relative;overflow:visible">
+          <div style="width:${pct}%;height:100%;background:${aCols[i]};border-radius:5px"></div>
+          ${pct>0?`<div style="position:absolute;top:50%;left:${pct}%;transform:translate(-50%,-50%);z-index:2;pointer-events:none"><svg viewBox=\"0 0 16 16\" xmlns=\"http://www.w3.org/2000/svg\" style=\"width:14px;height:14px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))\"><path d=\"M8 1C5 1 2 4 2 8c0 3 2 5.5 5 6 .2-2 .7-3.5 1.5-5C9.5 7.5 11 6 12.5 5c-1 2-1.5 4-1.5 6.5 2-1.5 3-4 3-6C14 3 11 1 8 1z\" fill=\"#8b5e3c\"/><path d=\"M8 2.5c-1.5 2.5-1.5 8 0 11\" stroke=\"#5c3320\" stroke-width=\".8\" fill=\"none\" stroke-linecap=\"round\" opacity=\".7\"/></svg></div>`:''}
+        </div>
+        ${pct>=100?`<span style="display:flex;align-items:center;gap:1px;font-size:.78rem;font-weight:800;color:#f39c12"><svg viewBox=\"0 0 18 18\" xmlns=\"http://www.w3.org/2000/svg\" style=\"width:12px;height:12px;filter:drop-shadow(0 0 3px #f39c12)\"><polygon points=\"9,1 11.5,6.5 17.5,7 13,11 14.5,17 9,14 3.5,17 5,11 0.5,7 6.5,6.5\" fill=\"#f39c12\" stroke=\"#e67e22\" stroke-width=\".5\"/></svg>100%</span>`:`<span style="font-size:.78rem;font-weight:700;min-width:32px">${pct}%</span>`}
         ${maxD>0?`<span class="dias ${nBadge(maxD).cls}" style="font-size:.68rem">max ${maxD}d</span>`:''}
       </div>
       <div style="font-size:.72rem;color:var(--g);margin-top:.3rem">${comp} realizados · ${xs.length-comp} pendientes</div></div>`;
@@ -1007,20 +1012,7 @@ function renderJefes(){
         </div>
         <div class="g2">
           <div><div style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--g);margin-bottom:.5rem">Por actividad</div>
-            ${Object.entries(actB).map(([a,v])=>{
-              const isSol=a==='SOLTAR';
-              const pendReal=isSol?v.ps:v.pend;
-              const dot=pendReal===0&&v.spa===0?'#27ae60':v.spa>0?'#f39c12':'#c0392b';
-              const badgeCls=pendReal===0&&v.spa===0?'bv':v.spa>0?'ba':'br';
-              const label=isSol
-                ?`${v.tot-pendReal-v.spa}/${v.tot} <small style="opacity:.75">(${pendReal} sin soltar)</small>`
-                :`${v.tot-v.pend-v.spa}/${v.tot}`;
-              return `<div style="display:flex;align-items:center;gap:.5rem;padding:.45rem 0;border-bottom:1px solid var(--borde)">
-                <div style="width:9px;height:9px;border-radius:50%;background:${dot};flex-shrink:0"></div>
-                <div style="flex:1;font-size:.82rem;font-weight:500">${a}</div>
-                <span class="badge ${badgeCls}">${label}</span>
-              </div>`;
-            }).join('')}
+            ${Object.entries(actB).map(([a,v])=>{const isSol=a==='SOLTAR';const pR=isSol?v.ps:v.pend;const dot=pR===0&&v.spa===0?'#27ae60':v.spa>0?'#f39c12':'#c0392b';const bc=pR===0&&v.spa===0?'bv':v.spa>0?'ba':'br';const lbl=isSol?`${pR}/${v.tot}`:`${v.tot-v.pend-v.spa}/${v.tot}`;return `<div style="display:flex;align-items:center;gap:.5rem;padding:.45rem 0;border-bottom:1px solid var(--borde)"><div style="width:9px;height:9px;border-radius:50%;background:${dot};flex-shrink:0"></div><div style="flex:1;font-size:.82rem;font-weight:500">${a}</div><span class="badge ${bc}">${lbl}</span></div>`;}).join('')}
           </div>
           <div><div style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--g);margin-bottom:.5rem">Por zona</div>
             <table style="font-size:.78rem;width:100%;border-collapse:collapse">
@@ -1063,18 +1055,16 @@ function poblarFiltros(){
   const jefes=[...new Set(DATA.map(r=>r.jefe))].sort();
   const zonas=[...new Set(DATA.map(r=>r.zona))].sort();
   const acts=[...new Set(DATA.map(r=>r.actividad))].sort();
-  const sJ=document.getElementById('fJefe');
-  const sZ=document.getElementById('fZona');
-  const sA=document.getElementById('fAct');
-  if(sJ&&sJ.options.length<=1){jefes.forEach(j=>{const o=document.createElement('option');o.value=o.text=j;sJ.appendChild(o);});}
-  if(sZ&&sZ.options.length<=1){zonas.forEach(z=>{const o=document.createElement('option');o.value=o.text=z;sZ.appendChild(o);});}
-  if(sA&&sA.options.length<=1){acts.forEach(a=>{const o=document.createElement('option');o.value=o.text=a;sA.appendChild(o);});}
+  const sJ=document.getElementById('fJefe'),sZ=document.getElementById('fZona'),sA=document.getElementById('fAct');
+  if(sJ.options.length<=1){jefes.forEach(j=>{const o=document.createElement('option');o.value=o.text=j;sJ.appendChild(o);});}
+  if(sZ.options.length<=1){zonas.forEach(z=>{const o=document.createElement('option');o.value=o.text=z;sZ.appendChild(o);});}
+  if(sA.options.length<=1){acts.forEach(a=>{const o=document.createElement('option');o.value=o.text=a;sA.appendChild(o);});}
 }
 
 function filtrar(){
-  const j=(document.getElementById('fJefe')||{}).value||'', z=(document.getElementById('fZona')||{}).value||'';
-  const a=(document.getElementById('fAct')||{}).value||'', s=(document.getElementById('fSt')||{}).value||'';
-  const b=((document.getElementById('fBusc')||{}).value||'').toLowerCase();
+  const j=document.getElementById('fJefe').value, z=document.getElementById('fZona').value;
+  const a=document.getElementById('fAct').value, s=document.getElementById('fSt').value;
+  const b=document.getElementById('fBusc').value.toLowerCase();
   filtrados=enrich().filter(r=>{
     if(j&&r.jefe!==j)return false; if(z&&r.zona!==z)return false;
     if(a&&r.actividad!==a)return false; if(s&&r._s!==s)return false;
@@ -1325,9 +1315,12 @@ function renderAll(){
   poblarFiltros(); filtrados=enrich(); renderDetalle();
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+window.addEventListener('load', function(){
   document.getElementById('hdrFecha').textContent='📅 '+HOY.toLocaleDateString('es-NI',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  poblarFiltros(); filtrados=enrich(); renderAll();
+  poblarFiltros();
+  filtrados = enrich();
+  renderAll();
+  loadFromSheets();
 });
 
 // ── IMPRESIÓN COMPLETA CON COLORES ───────────────────────────
@@ -1373,8 +1366,7 @@ function imprimirDashboard(){
     },500);
   },900);
 }
-// Conectar a Google Sheets automáticamente al abrir
-loadFromSheets();
+// Conectar a Google Sheets: llamado dentro de window.onload
 
 const FOTOS_JEFES={
 "Carlos T.":"data:image/jpeg;base64,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",
