@@ -773,22 +773,21 @@ function renderDash(){
       const _cq=d.filter(r=>r.jefe===j&&!isPend(r)).reduce((a,r)=>a+r.qqs,0);
       const _pq=(_tq-_cq).toFixed(2);
       const _pct=_tq>0?(_cq/_tq*100):0;
-      const _bT=(_tq/_mx*100).toFixed(0);
-      const _bC=Math.min((_cq/_mx*100),100).toFixed(0);
+      const _bC=Math.min(_pct,100).toFixed(0);
       const _foto=typeof FOTOS_JEFES!=='undefined'&&FOTOS_JEFES[j];
-      const _av=_foto?`<img src="${_foto}" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:3px solid ${_col};flex-shrink:0">`:`<div style="width:48px;height:48px;border-radius:50%;background:${_col};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:#fff;flex-shrink:0">${j.charAt(0)}</div>`;
-      return `<div style="display:flex;align-items:center;gap:.8rem;padding:.6rem .2rem;border-bottom:1px solid var(--borde)">
+      const _av=_foto?`<img src="${_foto}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:3px solid ${_col};flex-shrink:0">`:`<div style="width:52px;height:52px;border-radius:50%;background:${_col};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;color:#fff;flex-shrink:0">${j.charAt(0)}</div>`;
+      return `<div style="display:flex;align-items:center;gap:.85rem;padding:.7rem .2rem;border-bottom:1px solid var(--borde)">
         ${_av}
         <div style="flex:1;min-width:0">
-          <div style="font-weight:700;font-size:.83rem;margin-bottom:.12rem">${j}</div>
-          <div style="font-size:.69rem;color:var(--g);margin-bottom:.28rem">Total:<strong>${_tq.toFixed(2)}</strong> QQs · <span style="color:var(--r2)">Pend:${_pq}</span></div>
-          <div style="display:flex;align-items:center;gap:.4rem">
-            <div style="flex:1;height:8px;background:#e8ecf0;border-radius:4px;position:relative;overflow:visible">
-              <div style="width:${_bT}%;height:100%;background:${_col};opacity:.22;position:absolute;top:0;left:0;border-radius:4px"></div>
-              <div style="width:${_bC}%;height:100%;background:${_col};position:absolute;top:0;left:0;border-radius:4px"></div>
+          <div style="font-weight:700;font-size:.88rem;margin-bottom:.15rem">${j}</div>
+          <div style="font-size:.7rem;color:var(--g);margin-bottom:.05rem">Total: <strong style="color:var(--txt)">${_tq.toFixed(2)}</strong> QQs &nbsp;·&nbsp; Avanzado: <strong style="color:var(--v)">${_cq.toFixed(2)}</strong> QQs</div>
+          <div style="font-size:.7rem;color:var(--r2);font-weight:600;margin-bottom:.3rem">Pendiente: ${_pq} QQs</div>
+          <div style="display:flex;align-items:center;gap:.5rem">
+            <div style="flex:1;height:9px;background:#e8ecf0;border-radius:5px;position:relative;overflow:visible">
+              <div style="width:${_bC}%;height:100%;background:${_col};position:absolute;top:0;left:0;border-radius:5px;transition:width .6s"></div>
               ${_bC>0?`<div style="position:absolute;top:50%;left:${_bC}%;transform:translate(-50%,-50%);z-index:3;pointer-events:none">${_leaf}</div>`:''}
             </div>
-            ${_pct>=100?`<span style="font-size:.7rem;font-weight:800;min-width:40px;display:flex;align-items:center;gap:1px;color:#f39c12">${_star}100%</span>`:`<span style="font-size:.7rem;font-weight:700;min-width:32px;text-align:right;color:${_pct>0?_col:'var(--g)'}">${_pct.toFixed(0)}%</span>`}
+            ${_pct>=100?`<span style="font-size:.75rem;font-weight:800;min-width:44px;display:flex;align-items:center;gap:1px;color:#f39c12">${_star}100%</span>`:`<span style="font-size:.75rem;font-weight:700;min-width:36px;text-align:right;color:${_pct>0?_col:'var(--g)'}">${_pct.toFixed(0)}%</span>`}
           </div>
         </div>
       </div>`;
