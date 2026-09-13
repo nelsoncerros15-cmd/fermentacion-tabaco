@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Dashboard Fermentación de Tabaco</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -19,7 +19,15 @@
   --txt:#1c2833;--txt2:#5d6d7e;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#eef1f5;color:var(--txt);font-size:14px}
+body{font-family:'Inter',sans-serif;background:#eef1f5;color:var(--txt);font-size:14px;overflow-x:hidden;-webkit-text-size-adjust:100%}
+@keyframes floatUp{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+@keyframes shimmerPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.4)}
+  50%{box-shadow:0 0 0 6px rgba(255,255,255,0)}
+}
 .hdr{background:linear-gradient(135deg,#0d2e1a 0%,#1b5e37 55%,#27ae60 100%);color:#fff}
 .hdr-top{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.8rem;border-bottom:1px solid rgba(255,255,255,.12)}
 .hdr-brand{display:flex;align-items:center;gap:.9rem}
@@ -34,7 +42,7 @@ body{font-family:'Inter',sans-serif;background:#eef1f5;color:var(--txt);font-siz
 .tab{padding:.85rem 1.2rem;font-size:.83rem;font-weight:500;color:var(--g);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .18s;margin-bottom:-2px}
 .tab.active{color:var(--v);border-bottom-color:var(--v);font-weight:700}
 .tab:hover:not(.active){color:var(--v2)}
-.page{display:none;padding:1.4rem 1.8rem;max-width:1440px;margin:0 auto}
+.page{display:none;padding:.85rem .75rem;max-width:100%;margin:0 auto;box-sizing:border-box}
 .page.active{display:block}
 .kr{display:grid;gap:.9rem;margin-bottom:1.2rem}
 .k5{grid-template-columns:repeat(5,1fr)}.k4{grid-template-columns:repeat(4,1fr)}.k3{grid-template-columns:repeat(3,1fr)}
@@ -113,7 +121,7 @@ tr:last-child td{border-bottom:none}
 .pag-btn{padding:.3rem .7rem;border:1.5px solid var(--borde);border-radius:6px;font-size:.78rem;cursor:pointer;background:#fff}
 .pag-btn.active{background:var(--v);color:#fff;border-color:var(--v)}
 .pag-btn:hover:not(.active){background:var(--g3)}
-.jcard{background:#fff;border-radius:var(--rad);box-shadow:var(--sh);margin-bottom:1rem;overflow:hidden}
+.jcard{background:#fff;border-radius:var(--rad);box-shadow:var(--sh);margin-bottom:1rem;overflow:hidden;width:100%;box-sizing:border-box}
 .jchdr{padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between}
 .jcbody{padding:.5rem 1.2rem 1.2rem}
 .mstats{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:.75rem}
@@ -133,6 +141,19 @@ tr:last-child td{border-bottom:none}
 .modal-ttl{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700}
 .modal-x{border:none;background:var(--g3);border-radius:6px;width:32px;height:32px;font-size:1.1rem;cursor:pointer;color:var(--g)}
 .del-box{background:#fff;border-radius:14px;padding:1.6rem;width:min(95vw,420px);box-shadow:0 8px 40px rgba(0,0,0,.25);text-align:center}
+@media(max-width:480px){
+  .k5{grid-template-columns:repeat(2,1fr)!important}
+  .k4{grid-template-columns:repeat(2,1fr)!important}
+  .k3{grid-template-columns:repeat(2,1fr)!important}
+  .g2,.g3{grid-template-columns:1fr!important}
+  .kpi-val{font-size:1.5rem!important}
+  .twrap{font-size:.72rem!important}
+  .cttl{font-size:.85rem!important}
+  .jchdr{flex-wrap:wrap;gap:.5rem}
+  .tabs{gap:0;padding:0 .2rem}
+  .tab{font-size:.72rem!important;padding:.55rem .4rem!important}
+  .hdr-ttl{font-size:1.1rem!important}
+}
 @media print{
   /* ── Forzar colores de fondo en impresión ── */
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
@@ -775,7 +796,7 @@ function renderDash(){
       const _pct=_tq>0?(_cq/_tq*100):0;
       const _bC=Math.min(_pct,100).toFixed(0);
       const _foto=typeof FOTOS_JEFES!=='undefined'&&FOTOS_JEFES[j];
-      const _av=_foto?`<img src="${_foto}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:3px solid ${_col};flex-shrink:0">`:`<div style="width:52px;height:52px;border-radius:50%;background:${_col};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;color:#fff;flex-shrink:0">${j.charAt(0)}</div>`;
+      const _av=_foto?`<img src="${_foto}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:3px solid ${_col};flex-shrink:0;animation:floatUp 3s ease-in-out ${i*.4}s infinite;box-shadow:0 4px 12px ${_col}55">`:`<div style="width:52px;height:52px;border-radius:50%;background:${_col};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;color:#fff;flex-shrink:0;animation:floatUp 3s ease-in-out ${i*.4}s infinite">${j.charAt(0)}</div>`;
       return `<div style="display:flex;align-items:center;gap:.85rem;padding:.7rem .2rem;border-bottom:1px solid var(--borde)">
         ${_av}
         <div style="flex:1;min-width:0">
@@ -995,7 +1016,7 @@ function renderJefes(){
     const zonas={};
     xs.forEach(r=>{if(!zonas[r.zona])zonas[r.zona]={tot:0,pend:0};zonas[r.zona].tot++;if(isPend(r))zonas[r.zona].pend++;});
     const _f=typeof FOTOS_JEFES!=='undefined'&&FOTOS_JEFES[j];
-    const _av=_f?`<img src="${_f}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:3px solid ${cols[idx]};flex-shrink:0">`:`<div style="width:52px;height:52px;border-radius:50%;background:${cols[idx]};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.3rem;color:#fff;flex-shrink:0">${j.charAt(0)}</div>`;
+    const _av=_f?`<img src="${_f}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:3px solid ${cols[idx]};flex-shrink:0;animation:floatUp 3s ease-in-out ${idx*.4}s infinite;box-shadow:0 4px 14px ${cols[idx]}66">`:`<div style="width:52px;height:52px;border-radius:50%;background:${cols[idx]};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.3rem;color:#fff;flex-shrink:0;animation:floatUp 3s ease-in-out ${idx*.4}s infinite">${j.charAt(0)}</div>`;
     return `<div class="jcard" style="border-top:4px solid ${cols[idx]}">
       <div class="jchdr" style="background:linear-gradient(90deg,${cols[idx]}18,transparent)">
         <div style="display:flex;align-items:center;gap:.8rem;flex:1">${_av}<div><div style="font-size:1rem;font-weight:700;color:${cols[idx]}">${j}</div>
